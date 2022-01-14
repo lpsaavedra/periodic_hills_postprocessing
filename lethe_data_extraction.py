@@ -19,15 +19,15 @@ start_time = time.time()
 ########################################################################################################################
 # SET VARIABLES
 
-# Reynolds number of the simulation (Currently available for Re = 5600 only)
-Re = 5600
+# Reynolds number of the simulation (Currently available for Re = 5600, 10600, 37000 only)
+Re = 37000
 
 # Path to folder where Lethe simulation data is stored
-path_to_lethe_data = "./data/"
+path_to_lethe_data = "./lethe_data/"
 
 #Filename
-# file_names_lethe_data = ["0.0125_1M_1000s"] #, "0.025_4M_800s", "0.025_8M_800s"]
-file_names_lethe_data = ["0.1_120K_1000s_10600"]
+# example: file_names_lethe_data = ["0.0125_1M_1000s", "0.025_4M_800s"]
+file_names_lethe_data = ["0.1_250K_1000s_37000"]
 
 #Create a solver according to case
 folder_to_save_csv = "./output_csv/all_data/"
@@ -47,7 +47,7 @@ all_data = True
 
 # Lethe data extraction of files associated with x/h
 def lethe_data_extraction(x_value, data_type, path_to_lethe_data, file_names_lethe_data, Re):
-    assert Re == 5600, "Currently available for Re = 5600 only."
+    assert Re == 5600 or Re == 10600 or Re == 37000, "Currently available for Re = 5600, 10600, 37000 only."
 
     # Set bounds for x-values to be stored in iteration
     lower_bound = x_value - 0.1  # Tolerance set at 0.1 based on spacing in x-values at coarse mesh in initial case
