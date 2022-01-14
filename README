@@ -1,0 +1,22 @@
+This folder contains the necessary tools to post-process simulations for the periodic_hills test cases. It contains a number of python scripts with different purposes. 
+
+Description of each files:
+-------------------------
+
+* breuer2009_data_comparison.py:
+Script that compares two different sources for the data of the Breuer article. This code is intended mostly as a verification and should not be used when post-processing simulation data.
+
+* lethe_data_extraction.py:
+Script that extracts and organizes the data out of the Lehte csv file obtained by using the exported data using the spreadsheet view in Paraview. The name of each file and their associated label should be hard-coded within the python script. It offers the possibility of choosing the data type and specific x/h position.
+
+
+* literature_data_extraction.py
+Script that extracts and organizes the data out of the literature csv files in the lit folder. The name of each file and their associated label should be hard-coded within the python script. It offers the possibility of choosing the data type and specific x/h position.
+
+* near_wall_processing.py
+Script that outputs the reattachment point, average y+ and maximum y+ along the lower wall for Lethe simulations, and plots y+. The name of
+each Lethe file should be hard-coded within the python script as with post_processing_new.py.
+
+* y_plus_on_geometry.py
+Script that plots y+ superimposed over the periodic hill geometry.
+
