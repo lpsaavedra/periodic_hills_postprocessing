@@ -19,7 +19,7 @@ start_time = time.time()
 ########################################################################################################################
 # SET VARIABLES
 
-# Reynolds number of the simulation (Currently available for Re = 5600, 10600, 37000 (experminetal) only)
+# Reynolds number of the simulation (Currently available for Re = 5600, 10600, 37000 (experimental) only)
 Re = 5600
 
 # Information about the literature data
