@@ -19,14 +19,14 @@ start_time = time.time()
 ########################################################################################################################
 # SET VARIABLES
 
-# Reynolds number of the simulation (Currently available for Re = 5600 only)
+# Reynolds number of the simulation (Currently available for Re = 5600, 10600, 37000 (experminetal) only)
 Re = 5600
 
 # Information about the literature data
 path_to_literature_data = "./lit/Re_5600/"
 
 # Save data in csv files
-folder_to_save_csv = "./output_csv/literature/"
+folder_to_save_csv = "./output_csv/literature/5600/"
 Path(folder_to_save_csv).mkdir(parents=True, exist_ok=True)
 
 # If an specific x/h position is needed: Set x_value to be equal to 0.05, 0.5, 1, 2, 3, 4, 5, 6, 7 or 8
@@ -44,12 +44,15 @@ all_data = True
 
 # Literature data extraction of files associated with x/h
 def literature_data_extraction(x_value, data_type, path_to_literature_data, folder_to_save_csv, Re):
-    assert Re == 5600, "Currently available for Re = 5600 only."
+    assert Re == 5600 or Re == 10600 or Re == 37000, "Currently available for Re = 5600, 10600 and 37000 (exp) only."
 
     # Using x value to determine which file number is required
     if x_value == 0.05:
         literature_data_nb = "01"
-        ww_lit_data_nb = "05"
+        if Re == 10600 or Re == 37000:
+            ww_lit_data_nb = None
+        else:
+            ww_lit_data_nb = "05"
     elif x_value == 0.5:
         literature_data_nb = "02"
         ww_lit_data_nb = None
@@ -58,13 +61,19 @@ def literature_data_extraction(x_value, data_type, path_to_literature_data, fold
         ww_lit_data_nb = None
     elif x_value == 2:
         literature_data_nb = "04"
-        ww_lit_data_nb = "11"
+        if Re == 10600 or Re == 37000:
+            ww_lit_data_nb = None
+        else:
+            ww_lit_data_nb = "11"        
     elif x_value == 3:
         literature_data_nb = "05"
         ww_lit_data_nb = None
     elif x_value == 4:
         literature_data_nb = "06"
-        ww_lit_data_nb = "17"
+        if Re == 10600 or Re == 37000:
+            ww_lit_data_nb = None
+        else:
+            ww_lit_data_nb = "17"
     elif x_value == 5:
         literature_data_nb = "07"
         ww_lit_data_nb = None
@@ -76,7 +85,10 @@ def literature_data_extraction(x_value, data_type, path_to_literature_data, fold
         ww_lit_data_nb = None
     elif x_value == 8:
         literature_data_nb = "10"
-        ww_lit_data_nb = "23"
+        if Re == 10600 or Re == 37000:
+            ww_lit_data_nb = None
+        else: 
+            ww_lit_data_nb = "23"
     else:
         literature_data_nb = None
         ww_lit_data_nb = None
@@ -103,9 +115,12 @@ def literature_data_extraction(x_value, data_type, path_to_literature_data, fold
     # To obtain reynolds_normal_stress_2
     if ww_lit_data_nb is not None and literature_data_type == "w'w'/u_b^2":
         Rapp2009_data = None
-        Breuer2009_csv = path_to_literature_data + "Breuer2009/Breuer2009_" + str(ww_lit_data_nb) + ".csv"
-        Breuer2009_data = pandas.read_csv(Breuer2009_csv, usecols=["x", "Curve" + str(ww_lit_data_nb)], sep=",")
-        Breuer2009_data = [numpy.array(Breuer2009_data["Curve" + str(ww_lit_data_nb)]),numpy.array(Breuer2009_data["x"])]
+        if Re == 37000:
+            Breuer2009_data = None
+        else:
+            Breuer2009_csv = path_to_literature_data + "Breuer2009/Breuer2009_" + str(ww_lit_data_nb) + ".csv"
+            Breuer2009_data = pandas.read_csv(Breuer2009_csv, usecols=["x", "Curve" + str(ww_lit_data_nb)], sep=",")
+            Breuer2009_data = [numpy.array(Breuer2009_data["Curve" + str(ww_lit_data_nb)]),numpy.array(Breuer2009_data["x"])]
 
     elif ww_lit_data_nb is None and literature_data_type == "w'w'/u_b^2":
         Rapp2009_data = Breuer2009_data = None
@@ -113,9 +128,12 @@ def literature_data_extraction(x_value, data_type, path_to_literature_data, fold
     # To obtain turbulent_kinetic_energy
     elif literature_data_nb is not None and literature_data_type == "k/u_b^2":
         Rapp2009_data = None
-        Breuer2009_csv = path_to_literature_data + "Breuer2009_UFR3-30/Breuer2009_3-30_" + str(literature_data_nb) + ".csv"
-        Breuer2009_data = pandas.read_csv(Breuer2009_csv, usecols=["y/h", literature_data_type], sep=";")
-        Breuer2009_data = [numpy.array(Breuer2009_data[literature_data_type]), numpy.array(Breuer2009_data["y/h"])]
+        if Re == 37000:
+            Breuer2009_data = None
+        else:
+            Breuer2009_csv = path_to_literature_data + "Breuer2009_UFR3-30/Breuer2009_3-30_" + str(literature_data_nb) + ".csv"
+            Breuer2009_data = pandas.read_csv(Breuer2009_csv, usecols=["y/h", literature_data_type], sep=";")
+            Breuer2009_data = [numpy.array(Breuer2009_data[literature_data_type]), numpy.array(Breuer2009_data["y/h"])]
 
     # To obtain all other data_type
     elif literature_data_nb is not None and literature_data_type is not None:
@@ -123,17 +141,21 @@ def literature_data_extraction(x_value, data_type, path_to_literature_data, fold
         Rapp2009_data = pandas.read_csv(Rapp2009_csv, usecols=["y/h", literature_data_type], sep=",")
         Rapp2009_data = [numpy.array(Rapp2009_data[literature_data_type]), numpy.array(Rapp2009_data["y/h"])]
 
-        Breuer2009_csv = path_to_literature_data + "Breuer2009_UFR3-30/Breuer2009_3-30_" + str(
-            literature_data_nb) + ".csv"
-        Breuer2009_data = pandas.read_csv(Breuer2009_csv, usecols=["y/h", literature_data_type], sep=";")
-        Breuer2009_data = [numpy.array(Breuer2009_data[literature_data_type]), numpy.array(Breuer2009_data["y/h"])]
+        if Re == 37000:
+            Breuer2009_data = None
+        else:
+            Breuer2009_csv = path_to_literature_data + "Breuer2009_UFR3-30/Breuer2009_3-30_" + str(
+                literature_data_nb) + ".csv"
+            Breuer2009_data = pandas.read_csv(Breuer2009_csv, usecols=["y/h", literature_data_type], sep=";")
+            Breuer2009_data = [numpy.array(Breuer2009_data[literature_data_type]), numpy.array(Breuer2009_data["y/h"])]
     else:
         Rapp2009_data = Breuer2009_data = None
 
     # Write output arrays to .csv files
     pandas.DataFrame(Rapp2009_data).to_csv(
         folder_to_save_csv + '_Rapp2009' + str(data_type) + '_x_' + str(x_value) + '.csv')
-    pandas.DataFrame(Breuer2009_data).to_csv(
+    if Re == 5600 or Re == 10600:
+        pandas.DataFrame(Breuer2009_data).to_csv(
         folder_to_save_csv + '_Breuer2009' + str(data_type) + '_x_' + str(x_value) + '.csv')
 
     print("Literature data extracted for x = ", x_value, " and for data type = " + data_type)
