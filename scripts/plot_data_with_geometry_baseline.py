@@ -20,40 +20,40 @@ start_time = time.time()
 ################################################ FILL OUT THIS PART ###################################################
 
 # Reynolds number of the simulation
-Re = 5600
+Re = 10600
 
 # Path to .csv file (same as post_processing_new.py)
-path_to_data = "../output_csv/all_data/"
+path_to_lethe_data = "../output_csv/all_data/"
+path_to_literature_data = "../output_csv/literature/10600/"
 
 # Path and name to save graphs
-path_to_save = "../output_geometry/baseline/"
-# path_to_save = "../journal_im/"
+path_to_save = "../output_geometry/"
+
 Path(path_to_save).mkdir(parents=True, exist_ok=True)
 
 # Label for Lethe data for the legend (should be the same as used in post_processing_new.py)
 # NOTE : make sure the number of labels are the same that the number of Lethe simulation data in csv files and
 #        and associated to the right data set
-labels = ["Lethe 5600 1M", "Lethe 10600 250k", "Lethe 10600 120k" , "Lethe 37000 250k"]
-
+labels = ["Lethe 250K"]
 
 
 # File names of lethe data
-file_names_lethe_data = ["0.1_1M_1000s", "0.1_250K_1000s_10600", "0.1_120K_1000s_10600", "0.1_250K_1000s_37000"]
+file_names_lethe_data = ["0.1_250K_1000s_10600"]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
-data_type = "reynolds_normal_stress_0"
+data_type = "average_velocity_0"
 
 # Scale factor for the curves
 # Suggestions : 0.8 for average_velocity_0, 3 for average_velocity_1, 5 for reynolds_normal_stress_0,
 #               15 for reynolds_normal_stress_1, and 10 for reynolds_shear_stress
-scale_factor = 5
+scale_factor = 0.8
 
 # Extract and generate graphs for all x_values and data_types? (True or False)
 all_data = False
 
 # Display the title on the output graphs? (True or False)
-display_title = False
+display_title = True
 
 #Add zoom in plots?
 zoom_in_plots = True
@@ -168,24 +168,25 @@ def hill_geometry():
     return x_vector, y_bottom, y_top
 
 # Function to retrieve data from .csv files
-def obtain_data(x_available, folder_to_save_csv, file_names_lethe_data, data_type):
+def obtain_data(x_available, path_to_lethe_data, file_names_lethe_data, data_type, path_to_literature_data):
     all_x_data = []
     for x_value in x_available:
         data = []
 
         # Read data and append to list
-        Rapp2009_csv = folder_to_save_csv + '_Rapp2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
+        Rapp2009_csv = path_to_literature_data + '_Rapp2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
         Rapp2009_data = pandas.read_csv(Rapp2009_csv)
         Rapp2009_data = Rapp2009_data.to_numpy()
         data.append(Rapp2009_data)
 
-        Breuer2009_csv = folder_to_save_csv + '_Breuer2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
-        Breuer2009_data = pandas.read_csv(Breuer2009_csv)
-        Breuer2009_data = Breuer2009_data.to_numpy()
-        data.append(Breuer2009_data)
+        if Re == 5600 or Re == 10600:
+            Breuer2009_csv = path_to_literature_data + '_Breuer2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
+            Breuer2009_data = pandas.read_csv(Breuer2009_csv)
+            Breuer2009_data = Breuer2009_data.to_numpy()
+            data.append(Breuer2009_data)
 
         for file in file_names_lethe_data:
-            Lethe_data_csv = folder_to_save_csv + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
+            Lethe_data_csv = path_to_lethe_data + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
             Lethe_data = pandas.read_csv(Lethe_data_csv)
             Lethe_data = Lethe_data.to_numpy()
             data.append(Lethe_data)
@@ -260,7 +261,7 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
                         ax3.plot(dataset[0,:], dataset[1,:], "-", color=color, linewidth=1.2)
                         ax4.plot(dataset[0,:], dataset[1,:], "-", color=color, linewidth=1.2)
 
-            elif j == 1:      # Data is from Breuer
+            elif j == 1 and Re != 37000:      # Data is from Breuer
                 # Scale data to plot and remove first column
                 dataset[0,:] = (scale_factor * dataset[0,:]) + x_value
                 dataset = numpy.delete(dataset, 0, 1)
@@ -350,8 +351,10 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
     ##Zoom plots: set the coordinates for the zoom-in plot x1, x2, y1, y2
     if zoom_in_plots is True:
         #1st. Zoom in
-        # x1 = 0; x2 = 0.7; y1 = 0.7; y2 = 1.4 #for average velocity
-        x1 = 0; x2 = 0.7; y1 = 0.7; y2 = 1.4 #for reynolds normal stress
+        if data_type == "average_velocity_0":
+             x1 = 0; x2 = 0.7; y1 = 0.7; y2 = 1.4 #for average velocity
+        else:
+            x1 = 0; x2 = 0.7; y1 = 0.7; y2 = 1.4 #for reynolds normal stress
         ax2.set_xbound(x1, x2)
         ax2.set_ybound(y1, y2)
         ax2.xaxis.set_major_locator(ticker.MultipleLocator(0.2))
@@ -362,8 +365,10 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
         fig.add_artist(ax2_1)
 
         #2nd zoom in
-        # x1 = 3.6; x2 = 4.3; y1 = 0; y2 = 0.7 #for average velocity
-        x1 = 3.9; x2 = 4.6; y1 = 0; y2 = 0.7 #for reynolds normal stress
+        if data_type == "average_velocity_0":
+            x1 = 3.6; x2 = 4.3; y1 = 0; y2 = 0.7 #for average velocity
+        else:
+            x1 = 3.9; x2 = 4.6; y1 = 0; y2 = 0.7 #for reynolds normal stress
         ax3.set_xbound(x1, x2)
         ax3.set_ybound(y1, y2)
         ax3.xaxis.set_major_locator(ticker.MultipleLocator(0.2))
@@ -375,8 +380,10 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
         fig.add_artist(ax3_1)
 
         #3rd zoom in
-        # x1 = 7.2; x2 = 7.9; y1 = 2.3; y2 = 3.035 #for average velocity
-        x1 = 6.6; x2 = 7.3; y1 = 2.3; y2 = 3.035 #for reynolds normal stress
+        if data_type == "average_velocity_0":
+            x1 = 7.2; x2 = 7.9; y1 = 2.3; y2 = 3.035 #for average velocity
+        else:
+            x1 = 6.6; x2 = 7.3; y1 = 2.3; y2 = 3.035 #for reynolds normal stress
         ax4.set_xbound(x1, x2)
         ax4.set_ybound(y1, y2)
         ax4.xaxis.set_major_locator(ticker.MultipleLocator(0.2))
@@ -389,7 +396,7 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
 
     plt.tight_layout()
     # plt.show()
-    plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + "_review_2.png", dpi=800, bbox_inches='tight',pad_inches = 0)
+    plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + "_" + str(Re) +".png", dpi=800, bbox_inches='tight',pad_inches = 0)
     # plt.close(fig)
     ax.clear()
     
@@ -422,7 +429,7 @@ if all_data is True:
         x_label = x_labels_available[data_type_available.index(data)]
         scale = scale_available[data_type_available.index(data)]
 
-        data_at_all_x = obtain_data(x_available, path_to_data, file_names_lethe_data, data)
+        data_at_all_x = obtain_data(x_available, path_to_lethe_data, file_names_lethe_data, data, path_to_literature_data)
         plot_onto_geometry(x_available, Re, data_at_all_x, path_to_save, x_vector_hill, y_bottom_hill, y_top_hill, scale,
                         labels, x_label, display_title, data)
 
@@ -430,7 +437,7 @@ if all_data is True:
 else:
     x_label = x_labels_available[data_type_available.index(data_type)]
 
-    data_at_all_x = obtain_data(x_available, path_to_data, file_names_lethe_data, data_type)
+    data_at_all_x = obtain_data(x_available, path_to_lethe_data, file_names_lethe_data, data_type, path_to_literature_data)
     plot_onto_geometry(x_available, Re, data_at_all_x, path_to_save, x_vector_hill, y_bottom_hill, y_top_hill, scale_factor,
                     labels, x_label, display_title, data_type)
 
