@@ -20,11 +20,11 @@ start_time = time.time()
 ################################################ FILL OUT THIS PART ###################################################
 
 # Reynolds number of the simulation
-Re = 10600
+Re = 5600
 
 # Path to .csv file (same as post_processing_new.py)
 path_to_lethe_data = "../output_csv/all_data/"
-path_to_literature_data = "../output_csv/literature/10600/"
+path_to_literature_data = "../output_csv/literature/5600/"
 
 # Path and name to save graphs
 path_to_save = "../output_geometry/"
@@ -38,16 +38,16 @@ labels = ["Lethe 250K"]
 
 
 # File names of lethe data
-file_names_lethe_data = ["0.1_250K_1000s_10600"]
+file_names_lethe_data = ["0.1_1M_1000s"]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
-data_type = "average_velocity_0"
+data_type = "reynolds_shear_stress_uv"
 
 # Scale factor for the curves
 # Suggestions : 0.8 for average_velocity_0, 3 for average_velocity_1, 5 for reynolds_normal_stress_0,
 #               15 for reynolds_normal_stress_1, and 10 for reynolds_shear_stress
-scale_factor = 0.8
+scale_factor = 10
 
 # Extract and generate graphs for all x_values and data_types? (True or False)
 all_data = False
