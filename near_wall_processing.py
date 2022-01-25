@@ -18,19 +18,19 @@ start_time = time.time()
 # SET VARIABLES
 
 # Reynolds number and kinematic viscosity of the simulation (Currently available for Re = 5600 only)
-Re = 5600
-viscosity = 1.78571E-04
+Re = 10600
+viscosity = 9.43396E-05
 
 # Information about the Lethe data
-path_to_lethe_data = "./data/"
-file_names_lethe_data = ["0.025_1M_500s", "0.025_1M_1100s"] #", "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
+path_to_lethe_data = "./lethe_data/"
+file_names_lethe_data = ["0.1_120K_1000s_10600"] #", "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
-labels = ["0.025_1M_500s", "0.025_1M_1100s"] #, "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
+labels = ["Lethe"] #, "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
 
 # Information about the literature data
-path_to_literature_data = "./output_csv/literature/"
+path_to_literature_data = "./output_csv/literature/10600/"
 
 # Save graph.png and data.csv
 folder_to_save_png = "./output_png/near_wall"
@@ -46,7 +46,7 @@ display_title = True
 
 # Lethe data extraction of files associated with x/h
 def lethe_data_extraction(path_to_lethe_data, file_names_lethe_data, Re):
-    assert Re == 5600, "Currently available for Re = 5600 only."
+    assert Re == 5600 or Re == 10600 or Re == 37000, "Currently available for Re = 5600, 10600, 37000 only."
 
     # Set index
     index = 1
@@ -303,7 +303,7 @@ assert len(labels) == len(file_names_lethe_data), f"It seems to have {len(file_n
 # Collect required data types from near wall region
 lethe_data = lethe_data_extraction(path_to_lethe_data, file_names_lethe_data, Re)
 reattachment(lethe_data, labels)
-# y_plus_data = y_plus(lethe_data, viscosity, folder_to_save_csv)
+y_plus_data = y_plus(lethe_data, viscosity, folder_to_save_csv)
 # plot_y_plus(folder_to_save_png, y_plus_data, labels, Re, display_title)
 
 print("--- %s seconds ---" % (time.time() - start_time))
