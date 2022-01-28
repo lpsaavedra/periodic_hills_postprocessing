@@ -24,19 +24,19 @@ start_time = time.time()
 Re = 5600
 
 # Path to folder where Lethe simulation data is stored
-path_to_lethe_data = "../output_csv/time_averaging/"
+path_to_lethe_data = "../output_csv/all_data/"
 
 #Filename
 # file_names_lethe_data = ["0.1_1M_600s", "0.1_1M_700s", "0.1_1M_800s", "0.1_1M_900s", "0.1_1M_1000s", "0.1_1M_1100s", "0.1_1M_1200s"]
 # file_names_lethe_data = ["0.05_1M_600s", "0.05_1M_700s", "0.05_1M_800s", "0.05_1M_900s", "0.05_1M_1000s", "0.05_1M_1100s", "0.05_1M_1200s"]
-file_names_lethe_data = ["0.025_1M_500s", "0.025_1M_600s", "0.025_1M_700s", "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s", "0.025_1M_1100s"]
+file_names_lethe_data = ["0.025_250K_500s_5600", "0.025_250K_600s_5600", "0.025_250K_700s_5600", "0.025_250K_800s_5600", "0.025_250K_900s_5600", "0.025_250K_1000s_5600", "0.025_250K_1100s_5600"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
 labels = ["Lethe - 500s", "Lethe - 600s", "Lethe - 700s", "Lethe - 800s","Lethe - 900s","Lethe baseline - 1000s", "Lethe - 1100s"]
 
 # Information about the literature data
-path_to_literature_data = "../output_csv/literature/"
+path_to_literature_data = "../output_csv/literature/5600/"
 
 # Time step used
 # time_step = 0.1
@@ -45,7 +45,7 @@ time_step = 0.025
 
 # Save graph.png 
 # folder_to_save_png = "../output_png/averaging/"
-folder_to_save_png = "../journal_im/"
+folder_to_save_png = "../output_png/"
 
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
@@ -275,9 +275,9 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, data_typ
     fig.tight_layout()
     fig.subplots_adjust(bottom=0.17)
     if zoom_in == False:
-        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_averaging_t=" + str(time_step) + ".eps",dpi=800)
+        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_averaging_t=" + str(time_step) + ".png",dpi=800)
     else:
-        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_averaging_t=" + str(time_step) + "_with_zoom_in.eps",dpi=800)
+        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_averaging_t=" + str(time_step) + "_with_zoom_in.png",dpi=800)
 
     # plt.show()
 
