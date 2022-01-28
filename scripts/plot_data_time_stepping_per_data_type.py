@@ -24,26 +24,21 @@ start_time = time.time()
 Re = 5600
 
 # Path to folder where Lethe simulation data is stored
-path_to_lethe_data = "../output_csv/time_stepping/"
+path_to_lethe_data = "../output_csv/all_data/"
 
 #Filename
-file_names_lethe_data = ["0.1_1M_1000s", "0.05_1M_1000s", "0.025_1M_1000s", "0.0125_1M_1000s"]
+file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_250K_1000s_5600"] #, "0.0125_250K_1000s_5600"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
-labels = ["Lethe - $\Delta$t=0.1s", "Lethe - $\Delta$t=0.05s", "Lethe - $\Delta$t=0.025s", "Lethe - $\Delta$t=0.0125s"]
+labels = ["Lethe - $\Delta$t=0.1s", "Lethe - $\Delta$t=0.05s", "Lethe - $\Delta$t=0.025s"] #, "Lethe - $\Delta$t=0.0125s"]
 
 # Information about the literature data
-path_to_literature_data = "../output_csv/literature/"
-
-# Time step used
-time_step = 0.1
-# time_step = 0.05
-# time_step = 0.025
+path_to_literature_data = "../output_csv/literature/5600/"
 
 # Save graph.png 
-# folder_to_save_png = "../output_png/time_stepping/new/"
-folder_to_save_png = "../journal_im/"
+folder_to_save_png = "../output_png/time_stepping/"
+# folder_to_save_png = "../journal_im/"
 
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
@@ -90,7 +85,7 @@ def obtain_data(x_values, path_to_literature_data, path_to_lethe_data, file_name
 
 # Plot literature values against Lethe values
 def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, data_type, x_values, labels,
-                folder_to_save_png, time_step):
+                folder_to_save_png):
     # Plotting results
     plt.rcParams['text.usetex'] = True
     plt.rcParams['font.family']='DejaVu Serif'
@@ -273,9 +268,9 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, data_typ
     fig.tight_layout()
     fig.subplots_adjust(bottom=0.17)
     if zoom_in == False:
-        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping.eps",dpi=800)
+        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping.png",dpi=800)
     else:
-        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_with_zoom_in.eps",dpi=800)
+        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_with_zoom_in.png",dpi=800)
     # plt.show()
 
 
@@ -297,7 +292,7 @@ if all_data is True:
     # for x in x_available:
     for flow_property in data_type_available:
         [Breuer2009_all_data, Rapp2009_all_data, lethe_all_data] = obtain_data(x_available, path_to_literature_data, path_to_lethe_data, file_names_lethe_data, flow_property)
-        plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, flow_property, x_available, labels, folder_to_save_png, time_step)
+        plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, flow_property, x_available, labels, folder_to_save_png)
 
 print("--- %s seconds ---" % (time.time() - start_time))
 
