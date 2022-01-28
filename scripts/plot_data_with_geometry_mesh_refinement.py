@@ -24,20 +24,21 @@ start_time = time.time()
 Re = 5600
 
 # Path to .csv file (same as post_processing_new.py)
-path_to_data = "../output_csv/mesh_refinement/"
+path_to_lethe_data = "../output_csv/all_data/"
+path_to_literature_data = "../output_csv/literature/5600/"
 
 # Path and name to save graphs
-# path_to_save = "../output_geometry/mesh_refinement/"
-path_to_save = "../journal_im/"
+path_to_save = "../output_geometry/mesh_refinement/"
+# path_to_save = "../journal_im/"
 Path(path_to_save).mkdir(parents=True, exist_ok=True)
 
 # Label for Lethe data for the legend (should be the same as used in post_processing_new.py)
 # NOTE : make sure the number of labels are the same that the number of Lethe simulation data in csv files and
 #        and associated to the right data set
-labels = ["Lethe - 1M", "Lethe - 4M", "Lethe - 8M"]
+labels = ["Lethe - 250K", "Lethe - 1M"] #, "Lethe - 500K"]
 
 # File names of lethe data
-file_names_lethe_data = ["0.025_1M_800s", "0.025_4M_800s", "0.025_8M_800s"]
+file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_1M_800s_5600"] #, "0.025_500K_800s_5600"]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
@@ -169,25 +170,25 @@ def hill_geometry():
     return x_vector, y_bottom, y_top
 
 # Function to retrieve data from .csv files
-def obtain_data(x_available, folder_to_save_csv, file_names_lethe_data, data_type):
+def obtain_data(x_available, path_to_lethe_data, file_names_lethe_data, data_type, path_to_literature_data):
     all_x_data = []
     for x_value in x_available:
         data = []
 
         # Read data and append to list
-        Rapp2009_csv = folder_to_save_csv + '_Rapp2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
+        Rapp2009_csv = path_to_literature_data + '_Rapp2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
         Rapp2009_data = pandas.read_csv(Rapp2009_csv)
         Rapp2009_data = Rapp2009_data.to_numpy()
         data.append(Rapp2009_data)
 
-        Breuer2009_csv = folder_to_save_csv + '_Breuer2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
+        Breuer2009_csv = path_to_literature_data + '_Breuer2009' + str(data_type) + '_x_' + str(x_value) + '.csv'
         Breuer2009_data = pandas.read_csv(Breuer2009_csv)
         Breuer2009_data = Breuer2009_data.to_numpy()
         data.append(Breuer2009_data)
 
         i = 0
         for file in file_names_lethe_data:
-            Lethe_data_csv = folder_to_save_csv + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
+            Lethe_data_csv = path_to_lethe_data + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
             Lethe_data = pandas.read_csv(Lethe_data_csv)
             Lethe_data = Lethe_data.to_numpy()
             data.append(Lethe_data)
@@ -404,9 +405,9 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
     plt.tight_layout()
     # plt.show()
     if zoom_in_plots is True:
-        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + "_with_zoom_in.eps", dpi=800, bbox_inches='tight',pad_inches = 0)
+        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + "_with_zoom_in.png", dpi=800, bbox_inches='tight',pad_inches = 0)
     else:
-        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + ".eps", dpi=800, bbox_inches='tight',pad_inches = 0)
+        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + ".png", dpi=800, bbox_inches='tight',pad_inches = 0)
 
     plt.close(fig)
     ax.clear()
@@ -445,7 +446,7 @@ if all_data is True:
         x_label = x_labels_available[data_type_available.index(data)]
         scale = scale_available[data_type_available.index(data)]
 
-        data_at_all_x = obtain_data(x_available, path_to_data, file_names_lethe_data, data)
+        data_at_all_x = obtain_data(x_available, path_to_lethe_data, file_names_lethe_data, data, path_to_literature_data)
         plot_onto_geometry(x_available, Re, data_at_all_x, path_to_save, x_vector_hill, y_bottom_hill, y_top_hill, scale,
                         labels, x_label, display_title, data)
 
@@ -453,7 +454,7 @@ if all_data is True:
 else:
     x_label = x_labels_available[data_type_available.index(data_type)]
 
-    data_at_all_x = obtain_data(x_available, path_to_data, file_names_lethe_data, data_type)
+    data_at_all_x = obtain_data(x_available, path_to_lethe_data, file_names_lethe_data, data_type, path_to_literature_data)
     plot_onto_geometry(x_available, Re, data_at_all_x, path_to_save, x_vector_hill, y_bottom_hill, y_top_hill, scale_factor,
                     labels, x_label, display_title, data_type)
 
