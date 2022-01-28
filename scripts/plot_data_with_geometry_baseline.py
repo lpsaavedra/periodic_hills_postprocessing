@@ -20,11 +20,11 @@ start_time = time.time()
 ################################################ FILL OUT THIS PART ###################################################
 
 # Reynolds number of the simulation
-Re = 5600
+Re = 10600
 
 # Path to .csv file (same as post_processing_new.py)
 path_to_lethe_data = "../output_csv/all_data/"
-path_to_literature_data = "../output_csv/literature/5600/"
+path_to_literature_data = "../output_csv/literature/10600/"
 
 # Path and name to save graphs
 path_to_save = "../output_geometry/"
@@ -34,11 +34,11 @@ Path(path_to_save).mkdir(parents=True, exist_ok=True)
 # Label for Lethe data for the legend (should be the same as used in post_processing_new.py)
 # NOTE : make sure the number of labels are the same that the number of Lethe simulation data in csv files and
 #        and associated to the right data set
-labels = ["Lethe 250K"]
+labels = ["Lethe 120K", "Lethe 250K", "Lethe 500K"]
 
 
 # File names of lethe data
-file_names_lethe_data = ["0.1_1M_1000s"]
+file_names_lethe_data = ["0.1_120K_1000s_10600", "0.1_250K_1000s_10600", "0.1_500K_1000s_10600"]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
@@ -53,7 +53,7 @@ scale_factor = 10
 all_data = False
 
 # Display the title on the output graphs? (True or False)
-display_title = True
+display_title = False
 
 #Add zoom in plots?
 zoom_in_plots = True
@@ -367,6 +367,8 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
         #2nd zoom in
         if data_type == "average_velocity_0":
             x1 = 3.6; x2 = 4.3; y1 = 0; y2 = 0.7 #for average velocity
+        elif data_type == "reynolds_shear_stress_uv":
+            x1 = 3.5; x2 = 4.2; y1 = 0; y2 = 0.7 #for reynolds shear stress
         else:
             x1 = 3.9; x2 = 4.6; y1 = 0; y2 = 0.7 #for reynolds normal stress
         ax3.set_xbound(x1, x2)
