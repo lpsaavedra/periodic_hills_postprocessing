@@ -23,9 +23,30 @@ start_time = time.time()
 # SET VARIABLES
 
 #This information is obtained by running the near_wall_processing.py script for every simulation
+
+mesh_labels = ["Lethe - 250K", "Lethe - 1M", "Lethe - 4M"]
 #Reattachement points at different averaging times.
-reattachment_points = [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
-average_times = [500, 600, 700, 800, 900, 1000, 1100]
+#250K
+reattachment_points_1 = [5.09686651116088, 5.045595935082811, 5.039710668073614, 5.059829429669876, 5.079026106079334]
+average_times_1 = [600, 700, 800, 900, 1000] 
+# [5.119019253594677, 5.09686651116088, 5.045595935082811, 5.039710668073614, 5.059829429669876, 5.079026106079334,5.09935524282273]
+#[500, 600, 700, 800, 900, 1000, 1100]
+
+#1M
+reattachment_points_2 = [4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626]
+average_times_2 = [600, 700, 800, 900, 1000] 
+# [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
+#[500, 600, 700, 800, 900, 1000, 1100]
+
+#4M
+reattachment_points_3 = [4.82322082908, 4.809037746, 4.8116936081221, 4.83547590569519, 4.82277937063245]
+average_times_3 = [600, 700, 800, 900, 1000]
+
+reattachment_points = [reattachment_points_1, reattachment_points_2, reattachment_points_3]
+average_times = [average_times_1, average_times_2, average_times_3]
+
+# reattachment_points = [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
+# average_times = [500, 600, 700, 800, 900, 1000, 1100]
 
 # Save graph.png 
 folder_to_save_png = "../output_png/near_wall/"
@@ -34,7 +55,7 @@ Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
 ########################################################################################################################
 
-def plot_reattachment_points(reattachment_points, average_times, folder_to_save_png):
+def plot_reattachment_points(reattachment_points, average_times, folder_to_save_png, mesh_labels):
     
     plt.rcParams['text.usetex'] = True
     plt.rcParams['font.family']='DejaVu Serif'
@@ -43,27 +64,34 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
 
     fig, ax = plt.subplots()
 
+    colors = ["forestgreen", "darkorange", "royalblue"]
     #Plot Lethe data
-    average_times_flows_through = list()
-    for time in average_times:
-        average_times_flows_through.append((time - 207)/9)
+    index = 0
+    for reattachment_point in reattachment_points:
+        average_times_flows_through = list()
+        for time in average_times[index]:
+            average_times_flows_through.append((time - 207)/9)
 
-    ax.scatter(average_times_flows_through, reattachment_points, label = "Lethe - 1M", color = "royalblue", s = 16)
-
+        ax.scatter(average_times_flows_through, reattachment_point, label = mesh_labels[index], color = colors[index], s = 16)
+        index = index + 1
+    
     #Plot lethe error
-    reattachment_point = 4.85
-    constant = 0.5
+    reattachment_point_average = [5.06, 4.85, 4.82]
+    constant = [0.5, 0.5, 0.2]
     error_flow_through = numpy.linspace(1,146, num = 145)
 
-    error_reattachment_points_1 = list()
-    error_reattachment_points_2 = list()
-    for flow_through in error_flow_through:
-        error = constant/math.sqrt(flow_through)
-        error_reattachment_points_1.append(reattachment_point + error)
-        error_reattachment_points_2.append(reattachment_point - error)
+    index = 0
+    for reattachment_point in reattachment_point_average:
+        error_reattachment_points_1 = list()
+        error_reattachment_points_2 = list()
+        for flow_through in error_flow_through:
+            error = constant[index]/math.sqrt(flow_through)
+            error_reattachment_points_1.append(reattachment_point + error)
+            error_reattachment_points_2.append(reattachment_point - error)
 
-    ax.plot(error_flow_through, error_reattachment_points_1, ':', linewidth = 1.2, color = "royalblue")
-    ax.plot(error_flow_through, error_reattachment_points_2, ':', linewidth = 1.2, color = "royalblue")
+        ax.plot(error_flow_through, error_reattachment_points_1, ':', color = colors[index], linewidth = 1.2)
+        ax.plot(error_flow_through, error_reattachment_points_2, ':', color = colors[index], linewidth = 1.2)
+        index = index + 1
 
 
     # Plot previous studies
@@ -93,11 +121,11 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
     fig.subplots_adjust(bottom=0.3)
     # plt.tight_layout()
     ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.5), facecolor = 'white', framealpha = 0.75, ncol=2, edgecolor = 'black', fancybox = False, shadow = False)
-    fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600.png",dpi=800)
+    fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600_all.png",dpi=800)
     # plt.show()
 
 ########################################################################################################################
 # RUN FUNCTIONS
-plot_reattachment_points(reattachment_points, average_times, folder_to_save_png)
+plot_reattachment_points(reattachment_points, average_times, folder_to_save_png, mesh_labels)
 
 print("--- %s seconds ---" % (time.time() - start_time))
