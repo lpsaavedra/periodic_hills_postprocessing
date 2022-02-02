@@ -27,11 +27,11 @@ Re = 5600
 path_to_lethe_data = "../output_csv/all_data/"
 
 #Filename
-file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_250K_1000s_5600"] #, "0.0125_250K_1000s_5600"]
+file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_250K_1000s_5600", "0.0125_250K_1000s_5600"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
-labels = ["Lethe - $\Delta$t=0.1s", "Lethe - $\Delta$t=0.05s", "Lethe - $\Delta$t=0.025s"] #, "Lethe - $\Delta$t=0.0125s"]
+labels = ["Lethe - $\Delta$t=0.1s", "Lethe - $\Delta$t=0.05s", "Lethe - $\Delta$t=0.025s", "Lethe - $\Delta$t=0.0125s"]
 
 # Information about the literature data
 path_to_literature_data = "../output_csv/literature/5600/"
