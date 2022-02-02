@@ -35,10 +35,10 @@ Path(path_to_save).mkdir(parents=True, exist_ok=True)
 # Label for Lethe data for the legend (should be the same as used in post_processing_new.py)
 # NOTE : make sure the number of labels are the same that the number of Lethe simulation data in csv files and
 #        and associated to the right data set
-labels = ["Lethe - 250K", "Lethe - 1M"] #, "Lethe - 500K"]
+labels = ["Lethe - 250K", "Lethe - 500K", "Lethe - 1M", "Lethe - 4M", "Lethe - 8M"]
 
 # File names of lethe data
-file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_1M_800s_5600"] #, "0.025_500K_800s_5600"]
+file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600", "0.025_8M_800s_5600"] 
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
@@ -350,7 +350,7 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
     ax.set_xbound(0,9)
     plt.gca().set_aspect('equal', adjustable='box')
     # ax.legend(fontsize='x-small')
-    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.6), facecolor = 'white', framealpha = 0.75, ncol=3, edgecolor = 'black', fancybox = False, shadow = False)
+    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.6), facecolor = 'white', framealpha = 0.75, ncol=4, edgecolor = 'black', fancybox = False, shadow = False)
 
     # fig.subplots_adjust(top=0.35)
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
