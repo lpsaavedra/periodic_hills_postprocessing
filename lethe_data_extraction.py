@@ -20,14 +20,14 @@ start_time = time.time()
 # SET VARIABLES
 
 # Reynolds number of the simulation (Currently available for Re = 5600, 10600, 37000 only)
-Re = 37000
+Re = 5600
 
 # Path to folder where Lethe simulation data is stored
 path_to_lethe_data = "./lethe_data/"
 
 #Filename
 # example: file_names_lethe_data = ["0.0125_1M_1000s", "0.025_4M_800s"]
-file_names_lethe_data = ["0.1_250K_1000s_37000"]
+file_names_lethe_data = ["0.025_120K_800s_5600_q2q2"]
 
 #Create a solver according to case
 folder_to_save_csv = "./output_csv/all_data/"

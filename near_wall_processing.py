@@ -18,19 +18,19 @@ start_time = time.time()
 # SET VARIABLES
 
 # Reynolds number and kinematic viscosity of the simulation (Currently available for Re = 5600 only)
-Re = 10600
-viscosity = 9.43396E-05
+Re = 5600
+viscosity = 1.78571E-04
 
 # Information about the Lethe data
 path_to_lethe_data = "./lethe_data/"
-file_names_lethe_data = ["0.1_120K_1000s_10600"] #", "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
+file_names_lethe_data = ["0.1_250K_1000s_5600","0.05_250K_1000s_5600", "0.025_250K_1000s_5600" ,"0.0125_250K_1000s_5600"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
-labels = ["Lethe"] #, "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
+labels = ["Lethe 0.1", "Lethe 0.05", "Lethe 0.025", "Lethe 0.0125"] #, "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
 
 # Information about the literature data
-path_to_literature_data = "./output_csv/literature/10600/"
+path_to_literature_data = "./output_csv/literature/5600/"
 
 # Save graph.png and data.csv
 folder_to_save_png = "./output_png/near_wall"
