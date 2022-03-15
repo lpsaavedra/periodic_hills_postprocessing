@@ -36,23 +36,23 @@ Path(path_to_save).mkdir(parents=True, exist_ok=True)
 # Label for Lethe data for the legend (should be the same as used in post_processing_new.py)
 # NOTE : make sure the number of labels are the same that the number of Lethe simulation data in csv files and
 #        and associated to the right data set
-labels = ["Lethe - 250K - Q1Q1"] #, "Lethe - 120K - Q2Q2"]
+labels = ["Lethe - 250K - Q1Q1", "Lethe - 120K - Q2Q2"]
 
 # File names of lethe data
-file_names_lethe_data = ["0.025_250K_800s_5600"] #, "0.025_120K_800s_q2q2"]
+file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_120K_800s_5600_q2q2"]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
-# data_type = "reynolds_normal_stress_0"
-data_type = "average_velocity_0"
+data_type = "reynolds_normal_stress_0"
+# data_type = "average_velocity_0"
 # data_type = "reynolds_shear_stress_uv"
 
 # Scale factor for the curves
 # Suggestions : 0.8 for average_velocity_0, 3 for average_velocity_1, 5 for reynolds_normal_stress_0,
 #               15 for reynolds_normal_stress_1, and 10 for reynolds_shear_stress
+scale_factor = 5
+# scale_factor = 0.8
 # scale_factor = 10
-scale_factor = 0.8
-# scale_factor = 5
 
 # Extract and generate graphs for all x_values and data_types? (True or False)
 all_data = False
@@ -372,8 +372,10 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
         #2nd zoom in
         if data_type == "average_velocity_0":
             x1 = 3.6; x2 = 4.3; y1 = 0; y2 = 0.7 #for average velocity
-        else:
+        elif data_type == "reynolds_normal_stress_0":
             x1 = 3; x2 = 3.7; y1 = 0.6; y2 = 1.3 #for reynolds normal stress
+        else:
+            x1 = 3.3; x2 = 4; y1 = 0.6; y2 = 1.3 #for reynolds shear stress uv
         ax3.set_xbound(x1, x2)
         ax3.set_ybound(y1, y2)
         ax3.xaxis.set_major_locator(ticker.MultipleLocator(0.2))
