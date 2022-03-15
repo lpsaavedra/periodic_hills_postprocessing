@@ -36,10 +36,10 @@ Path(path_to_save).mkdir(parents=True, exist_ok=True)
 # Label for Lethe data for the legend (should be the same as used in post_processing_new.py)
 # NOTE : make sure the number of labels are the same that the number of Lethe simulation data in csv files and
 #        and associated to the right data set
-labels = ["Lethe - 250K - Q1Q1", "Lethe - 120K - Q2Q2"]
+labels = ["Lethe - 250K - Q1Q1", "Lethe - 500K - Q1Q1", "Lethe - 120K - Q2Q2"]
 
 # File names of lethe data
-file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_120K_800s_5600_q2q2"]
+file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_120K_800s_5600_q2q2"]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
