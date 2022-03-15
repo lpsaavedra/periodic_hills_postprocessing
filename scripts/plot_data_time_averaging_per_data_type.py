@@ -271,9 +271,12 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, data_typ
             sub_axes[3].set_xlim([0,1]); sub_axes[3].set_ylim([0,1])
 
     fig.set_size_inches(7,7)
+    # fig.set_size_inches(9,7)
     lgd = fig.legend(loc='lower center', ncol = 3, bbox_to_anchor=(0.5, -0.01), bbox_transform = plt.gcf().transFigure, facecolor = 'white', framealpha = 0.75,  edgecolor = 'black', fancybox = False, shadow = False)
+    # lgd = fig.legend(loc='right',bbox_to_anchor=(1.0, 0.5), bbox_transform = plt.gcf().transFigure, facecolor = 'white', framealpha = 0.75,  edgecolor = 'black', fancybox = False, shadow = False)
     fig.tight_layout()
     fig.subplots_adjust(bottom=0.17)
+    # fig.subplots_adjust(right=0.7)
     if zoom_in == False:
         fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_averaging_t=" + str(time_step) + ".png",dpi=800)
     else:
