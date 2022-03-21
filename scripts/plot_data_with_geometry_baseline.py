@@ -24,10 +24,11 @@ Re = 10600
 
 # Path to .csv file (same as post_processing_new.py)
 path_to_lethe_data = "../output_csv/all_data/"
-path_to_literature_data = "../output_csv/literature/10600/"
+path_to_literature_data = "../output_csv/literature/"+ str(Re) + "/"
 
 # Path and name to save graphs
-path_to_save = "../output_geometry/"
+# path_to_save = "../output_geometry/"
+path_to_save = "../output_geometry/higher_reynolds/"
 
 Path(path_to_save).mkdir(parents=True, exist_ok=True)
 
@@ -38,7 +39,7 @@ labels = ["Lethe 120K", "Lethe 250K", "Lethe 500K"]
 
 
 # File names of lethe data
-file_names_lethe_data = ["0.1_120K_1000s_10600", "0.1_250K_1000s_10600", "0.1_500K_1000s_10600"]
+file_names_lethe_data = ["0.1_120K_1000s_" + str(Re) , "0.1_250K_1000s_" + str(Re) , "0.1_500K_1000s_" + str(Re)]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
@@ -342,9 +343,15 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
     ax.set_xbound(0,9)
     plt.gca().set_aspect('equal', adjustable='box')
     # ax.legend(fontsize='x-small')
-    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.5), facecolor = 'white', framealpha = 0.75, ncol=3, edgecolor = 'black', fancybox = False, shadow = False)
 
-    # fig.subplots_adjust(top=0.2)
+    if Re == 10600:
+        # fig.subplots_adjust(bottom=0.7)
+        ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.6), facecolor = 'white', framealpha = 0.75, ncol=3, edgecolor = 'black', fancybox = False, shadow = False)
+    elif Re == 37000:
+        ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.6), facecolor = 'white', framealpha = 0.75, ncol=2, edgecolor = 'black', fancybox = False, shadow = False)
+    else:
+        ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.5), facecolor = 'white', framealpha = 0.75, ncol=3, edgecolor = 'black', fancybox = False, shadow = False)
+    
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     ax.yaxis.set_major_locator(ticker.MultipleLocator(1))
 
