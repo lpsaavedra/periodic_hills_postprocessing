@@ -28,7 +28,7 @@ path_to_lethe_data = "../output_csv/all_data/"
 path_to_literature_data = "../output_csv/literature/5600/"
 
 # Path and name to save graphs
-path_to_save = "../output_geometry/mesh_refinement/"
+path_to_save = "../article_figures/"
 # path_to_save = "../journal_im/"
 Path(path_to_save).mkdir(parents=True, exist_ok=True)
 
@@ -42,17 +42,17 @@ file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
-data_type = "reynolds_normal_stress_0"
-# data_type = "average_velocity_0"
+# data_type = "reynolds_normal_stress_0"
+data_type = "average_velocity_0"
 
 # Scale factor for the curves
 # Suggestions : 0.8 for average_velocity_0, 3 for average_velocity_1, 5 for reynolds_normal_stress_0,
 #               15 for reynolds_normal_stress_1, and 10 for reynolds_shear_stress
-scale_factor = 5
-# scale_factor = 0.8
+# scale_factor = 5
+scale_factor = 0.8
 
 # Extract and generate graphs for all x_values and data_types? (True or False)
-all_data = False
+all_data = True
 
 # Display the title on the output graphs? (True or False)
 display_title = False
@@ -405,9 +405,9 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
     plt.tight_layout()
     # plt.show()
     if zoom_in_plots is True:
-        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + "_with_zoom_in.png", dpi=800, bbox_inches='tight',pad_inches = 0)
+        plt.savefig(folder_to_save + "mesh_refinement_data_in_geometry_" + str(data_type) + "_with_zoom_in.eps", dpi=800, bbox_inches='tight',pad_inches = 0)
     else:
-        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + ".png", dpi=800, bbox_inches='tight',pad_inches = 0)
+        plt.savefig(folder_to_save + "mesh_refinement_data_in_geometry_" + str(data_type) + ".eps", dpi=800, bbox_inches='tight',pad_inches = 0)
 
     plt.close(fig)
     ax.clear()
@@ -428,17 +428,18 @@ x_available = [0.05, 0.5, 1, 2, 3, 4, 5, 6, 7, 8]
 # x_available = [0.5, 2, 4, 6]
 # x_available = [3]
 # Set x_label
-data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
-                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
-x_labels_available = ["$u/u_b$", "$v/u_b$", "$u'u'/u_b^2$", "$v'v'/u_b^2$", "$u'v'/u_b^2$"]
+# data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
+                            # "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
+# x_labels_available = ["$u/u_b$", "$v/u_b$", "$u'u'/u_b^2$", "$v'v'/u_b^2$", "$u'v'/u_b^2$"]
 
-# data_type_available = ["average_velocity_0", "reynolds_normal_stress_0", "reynolds_shear_stress_uv"]
+data_type_available = ["average_velocity_0", "reynolds_normal_stress_0", "reynolds_shear_stress_uv"]
 
-# x_labels_available = ["$u/u_b$", "$u'u'/u_b^2$", "$u'v'/u_b^2$"]
+x_labels_available = ["$u/u_b$", "$u'u'/u_b^2$", "$u'v'/u_b^2$"]
 
 # Plot all data profiles
 if all_data is True:
-    scale_available = [0.8, 3, 5, 15, 10]
+    # scale_available = [0.8, 3, 5, 15, 10]
+    scale_available = [0.8, 5, 10]
 
     # Cycle through all data types
     for data in data_type_available:
