@@ -28,7 +28,7 @@ path_to_literature_data = "../output_csv/literature/5600/"
 
 
 # Path and name to save graphs
-path_to_save = "../output_geometry/high-order/"
+path_to_save = "../article_figures/"
 # path_to_save = "../journal_im/"
 
 Path(path_to_save).mkdir(parents=True, exist_ok=True)
@@ -43,15 +43,15 @@ file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
-data_type = "reynolds_normal_stress_0"
-# data_type = "average_velocity_0"
+# data_type = "reynolds_normal_stress_0"
+data_type = "average_velocity_0"
 # data_type = "reynolds_shear_stress_uv"
 
 # Scale factor for the curves
 # Suggestions : 0.8 for average_velocity_0, 3 for average_velocity_1, 5 for reynolds_normal_stress_0,
 #               15 for reynolds_normal_stress_1, and 10 for reynolds_shear_stress
-scale_factor = 5
-# scale_factor = 0.8
+# scale_factor = 5
+scale_factor = 0.8
 # scale_factor = 10
 
 # Extract and generate graphs for all x_values and data_types? (True or False)
@@ -404,9 +404,9 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
     plt.tight_layout()
     # plt.show()
     if zoom_in_plots is True:
-        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + "_with_zoom_in.png", dpi=800, bbox_inches='tight',pad_inches = 0)
+        plt.savefig(folder_to_save + "high_order_data_in_geometry_" + str(data_type) + "_with_zoom_in.eps", dpi=800, bbox_inches='tight',pad_inches = 0)
     else:
-        plt.savefig(folder_to_save + "data_in_geometry_" + str(data_type) + ".png", dpi=500, bbox_inches='tight',pad_inches = 0)
+        plt.savefig(folder_to_save + "high_order_data_in_geometry_" + str(data_type) + ".eps", dpi=500, bbox_inches='tight',pad_inches = 0)
 
     plt.close(fig)
     ax.clear()
