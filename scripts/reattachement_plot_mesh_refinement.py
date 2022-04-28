@@ -24,7 +24,7 @@ start_time = time.time()
 
 #This information is obtained by running the near_wall_processing.py script for every simulation
 
-mesh_labels = ["Lethe - 250K", "Lethe - 1M", "Lethe - 4M"]
+mesh_labels = ["Lethe - 250K", "Lethe - 500K", "Lethe - 1M", "Lethe - 4M"]
 #Reattachement points at different averaging times.
 #250K
 reattachment_points_1 = [5.09686651116088, 5.045595935082811, 5.039710668073614, 5.059829429669876, 5.079026106079334]
@@ -32,24 +32,30 @@ average_times_1 = [600, 700, 800, 900, 1000]
 # [5.119019253594677, 5.09686651116088, 5.045595935082811, 5.039710668073614, 5.059829429669876, 5.079026106079334,5.09935524282273]
 #[500, 600, 700, 800, 900, 1000, 1100]
 
-#1M
-reattachment_points_2 = [4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626]
+#500K
+reattachment_points_2 = [4.632911085716633, 4.625248808252732, 4.628748473476688, 4.6306247666503495, 4.65011904021285]
 average_times_2 = [600, 700, 800, 900, 1000] 
 # [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
 #[500, 600, 700, 800, 900, 1000, 1100]
 
-#4M
-reattachment_points_3 = [4.82322082908, 4.809037746, 4.8116936081221, 4.83547590569519, 4.82277937063245]
-average_times_3 = [600, 700, 800, 900, 1000]
+#1M
+reattachment_points_3 = [4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626]
+average_times_3 = [600, 700, 800, 900, 1000] 
+# [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
+#[500, 600, 700, 800, 900, 1000, 1100]
 
-reattachment_points = [reattachment_points_1, reattachment_points_2, reattachment_points_3]
-average_times = [average_times_1, average_times_2, average_times_3]
+#4M
+reattachment_points_4 = [4.82322082908, 4.809037746, 4.8116936081221, 4.83547590569519, 4.82277937063245]
+average_times_4 = [600, 700, 800, 900, 1000]
+
+reattachment_points = [reattachment_points_1, reattachment_points_2, reattachment_points_3, reattachment_points_4]
+average_times = [average_times_1, average_times_2, average_times_3, average_times_4]
 
 # reattachment_points = [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
 # average_times = [500, 600, 700, 800, 900, 1000, 1100]
 
 # Save graph.png 
-folder_to_save_png = "../output_png/near_wall/"
+folder_to_save_png = "../article_figures/"
 # folder_to_save_png = "../journal_im/"
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
@@ -60,11 +66,11 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
     plt.rcParams['text.usetex'] = True
     plt.rcParams['font.family']='DejaVu Serif'
     plt.rcParams['font.serif']='cm'
-    plt.rcParams['font.size'] = 10
+    plt.rcParams['font.size'] = 11
 
     fig, ax = plt.subplots()
 
-    colors = ["forestgreen", "darkorange", "royalblue"]
+    colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:pumpkin", "xkcd:gold"]    
     #Plot Lethe data
     index = 0
     for reattachment_point in reattachment_points:
@@ -76,8 +82,8 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
         index = index + 1
     
     #Plot lethe error
-    reattachment_point_average = [5.06, 4.85, 4.82]
-    constant = [0.5, 0.5, 0.2]
+    reattachment_point_average = [5.06, 4.63, 4.85, 4.82]
+    constant = [0.5, 0.5, 0.5, 0.2]
     error_flow_through = numpy.linspace(1,146, num = 145)
 
     index = 0
@@ -105,7 +111,7 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
     breuer_reattachment_point = 5.09
     breuer_flows_through = 145
 
-    ax.scatter(breuer_flows_through, breuer_reattachment_point, marker = "D", label = "LESOCC - Breuer 2009", s = 16, color = 'crimson')
+    ax.scatter(breuer_flows_through, breuer_reattachment_point, marker = "D", label = "LESOCC - Breuer 2009", s = 16, color = 'xkcd:gold')
 
     # Plot Rapp's line
     rapp_reattachment_point = [4.83]*146
@@ -113,15 +119,15 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
 
     ax.plot(rapp_flow_through, rapp_reattachment_point, "--", label = "Experimental - Rapp 2009", color = "k", linewidth = 1.2 )
     
-    fig.set_size_inches(5,5)
+    fig.set_size_inches(8,4)
     ax.set_xlim([0,147])
     ax.set_xlabel("Averaging time [Flows throughs]")
     ax.set_ylabel("Reattachment length [-]")
     # ax.legend(loc = "lower center", bbox_to_anchor=(0.5, -0.3), ncol = 2)
-    fig.subplots_adjust(bottom=0.3)
+    fig.subplots_adjust(right=0.6)
     # plt.tight_layout()
-    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.5), facecolor = 'white', framealpha = 0.75, ncol=2, edgecolor = 'black', fancybox = False, shadow = False)
-    fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600_all.png",dpi=800)
+    ax.legend(loc='right', bbox_to_anchor=(1.7, 0.5), facecolor = 'white', framealpha = 0.75, ncol=1, edgecolor = 'black', fancybox = False, shadow = False)
+    fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600_all.eps",dpi=800)
     # plt.show()
 
 ########################################################################################################################
