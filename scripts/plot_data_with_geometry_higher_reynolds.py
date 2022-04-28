@@ -50,7 +50,7 @@ data_type = "reynolds_normal_stress_0"
 scale_factor = 5
 
 # Extract and generate graphs for all x_values and data_types? (True or False)
-all_data = False
+all_data = True
 
 # Display the title on the output graphs? (True or False)
 display_title = False
@@ -233,7 +233,8 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
         data_x = all_x_data[i]
 
         # Specify colours for Lethe plots
-        colors = ["xkcd:crimson", "xkcd:bright blue", "xkcd:dark lavender", "xkcd:pink"]
+        colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange"]    
+
 
         # data_x is a list of Rapp then Breuer then Lethe numpy arrays at x_value
         for j, dataset in enumerate(data_x):
@@ -244,7 +245,7 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
 
                 # Set labels, colour
                 label = 'Experimental - Rapp 2009'
-                color = "xkcd:green"
+                color = "k"
 
                 # Plot y-values, data
                 # Only include label on first x plot
@@ -268,23 +269,23 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
 
                 # Set labels, colour
                 label = 'LESOCC - Breuer 2009'
-                color = "xkcd:orange"
+                color = "k"
 
                 # Plot y-values, data
                 # Only include label on first x plot
                 if x_value == 0.5:
-                    ax.plot(dataset[0,:], dataset[1,:], "--", color=color, label=label, linewidth=1.2)
+                    ax.plot(dataset[0,:], dataset[1,:], ":", color=color, label=label, linewidth=1.2)
                     if zoom_in_plots is True:                    
-                        ax2.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
-                        ax3.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
-                        ax4.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
+                        ax2.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
+                        ax3.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
+                        ax4.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
 
                 else:
-                    ax.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
+                    ax.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
                     if zoom_in_plots is True:
-                        ax2.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
-                        ax3.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
-                        ax4.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
+                        ax2.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
+                        ax3.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
+                        ax4.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
 
             else:   # Data is from Lethe
                 # Scale data to plot and remove first column
@@ -292,24 +293,27 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
                 dataset = numpy.delete(dataset, 0, 1)
 
                 # Set labels, colour
-                label = lethe_labels[j-2]
-                color = colors[j-2]
-
+                if Re != 37000:
+                    label = lethe_labels[j-2]
+                    color = colors[j-2]
+                else:
+                    label = lethe_labels[j-1]
+                    color = colors[j-1]
                 # Plot y-values, data
                 # Only include label on first x plot
                 if x_value == 0.5:
-                    ax.plot(dataset[0, :], dataset[1, :], ":", color=color, label=label, linewidth=1.2)
+                    ax.plot(dataset[0, :], dataset[1, :], "--", color=color, label=label, linewidth=1.2)
                     if zoom_in_plots is True:                 
-                        ax2.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
-                        ax3.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
-                        ax4.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
+                        ax2.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
+                        ax3.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
+                        ax4.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
 
                 else:
-                    ax.plot(dataset[0, :], dataset[1, :], ":", color=color, linewidth=1.2)
+                    ax.plot(dataset[0, :], dataset[1, :], "--", color=color, linewidth=1.2)
                     if zoom_in_plots is True:
-                        ax2.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
-                        ax3.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
-                        ax4.plot(dataset[0,:], dataset[1,:], ":", color=color, linewidth=1.2)
+                        ax2.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
+                        ax3.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
+                        ax4.plot(dataset[0,:], dataset[1,:], "--", color=color, linewidth=1.2)
 
     # Plot and save graph
     if show_title is True:
@@ -423,13 +427,15 @@ x_vector_hill, y_bottom_hill, y_top_hill = hill_geometry()
 x_available = [0.05, 0.5, 1, 2, 3, 4, 5, 6, 7, 8]
 
 # Set x_label
-data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
-                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
-x_labels_available = ["$u/u_b$", "$v/u_b$", "$u'u'/u_b^2$", "$v'v'/u_b^2$", "$u'v'/u_b^2$"]
+# data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
+                            # "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
+data_type_available = ["average_velocity_0", "reynolds_normal_stress_0"]
+# x_labels_available = ["$u/u_b$", "$v/u_b$", "$u'u'/u_b^2$", "$v'v'/u_b^2$", "$u'v'/u_b^2$"]
+x_labels_available = ["$u/u_b$", "$u'u'/u_b^2$"]
 
 # Plot all data profiles
 if all_data is True:
-    scale_available = [0.8, 3, 5, 15, 10]
+    scale_available = [0.8, 5]
 
     # Cycle through all data types
     for data in data_type_available:
