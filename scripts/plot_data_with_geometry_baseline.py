@@ -231,7 +231,6 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
         data_x = all_x_data[i]
 
         # Specify colours for Lethe plots
-        # colors = ["xkcd:crimson", "xkcd:bright blue", "xkcd:dark lavender", "xkcd:pink"]
         colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:brown", "xkcd:pink", "xkcd:gold"]    
 
         # data_x is a list of Rapp then Breuer then Lethe numpy arrays at x_value
