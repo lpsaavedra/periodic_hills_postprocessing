@@ -37,8 +37,9 @@ Path(path_to_save).mkdir(parents=True, exist_ok=True)
 #        and associated to the right data set
 labels = ["Lethe 120K", "Lethe 250K", "Lethe 500K"]
 
+
 # File names of lethe data
-file_names_lethe_data = ["0.1_120K_1000s_" + str(Re) , "0.1_250K_1000s_" + str(Re) , "0.1_500K_1000s_" + str(Re)]
+file_names_lethe_data = ["0.025_120k_800s_" + str(Re) , "0.025_250k_800s_" + str(Re) , "0.025_500K_800s_" + str(Re)]
 
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
