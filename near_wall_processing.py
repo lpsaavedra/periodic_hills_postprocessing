@@ -18,25 +18,39 @@ start_time = time.time()
 # SET VARIABLES
 
 # Reynolds number and kinematic viscosity of the simulation (Currently available for Re = 5600 only)
-Re = 5600
-viscosity = 1.78571E-04
+Re = 37000
+
+if Re == 5600:
+    viscosity = 1.78571E-04 
+elif Re == 10600:
+    viscosity = 9.43396E-05 
+else:
+    viscosity = 2.7027E-05 
 
 # Information about the Lethe data
 path_to_lethe_data = "./lethe_data/"
-file_names_lethe_data = ["0.1_250K_1000s_5600","0.05_250K_1000s_5600", "0.025_250K_1000s_5600" ,"0.0125_250K_1000s_5600"]
+# file_names_lethe_data = ["0.025_500K_600s_5600","0.025_500K_700s_5600","0.025_500K_800s_5600","0.025_500K_900s_5600","0.025_500K_1000s_5600"]
+# file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_250K_1000s_5600", "0.0125_250K_1000s_5600"]
+# file_names_lethe_data = ["0.1_1M_1000s_old_baseline", "0.05_1M_1000s_old_baseline", "0.025_1M_1000s_old_baseline", "0.0125_1M_1000s_old_baseline"]
+# file_names_lethe_data = ["0.1_1M_1000s_old_baseline"]
+file_names_lethe_data = ["0.025_120k_800s_37000", "0.025_250k_800s_37000", "0.025_500K_800s_37000"] #, "0.025_120k_800s_37000", "0.025_250k_800s_37000", "0.025_500K_800s_37000"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
-labels = ["Lethe 0.1", "Lethe 0.05", "Lethe 0.025", "Lethe 0.0125"] #, "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
+# labels = ["Lethe 0.025 500K 600s", "Lethe 0.025 500K 700s","Lethe 0.025 500K 800s","Lethe 0.025 500K 900s","Lethe 0.025 500K 1000s"] #, "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
+# labels = ["Lethe 0.1s 250K", "Lethe 0.05s 250K", "Lethe 0.025s 250K", "Lethe 0.0125s 250K"]
+# labels = ["Lethe 0.1s 1M", "Lethe 0.05s 1M", "Lethe 0.025s 1M", "Lethe 0.0125s 1M"]
+labels = ["Lethe 0.025s 120K 37000", "Lethe 0.025s 250K 37000", "Lethe 0.025s 500K 37000"] #, "Lethe 0.025s 120K 37000", "Lethe 0.025s 250K 37000", "Lethe 0.025s 500K 37000"]
+# labels = ["Lethe 0.1s 1M"]
 
 # Information about the literature data
 path_to_literature_data = "./output_csv/literature/5600/"
 
 # Save graph.png and data.csv
-folder_to_save_png = "./output_png/near_wall"
+folder_to_save_png = "./output_png/near_wall/"
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
-folder_to_save_csv = "./output_csv/near_wall"
+folder_to_save_csv = "./output_csv/near_wall/"
 Path(folder_to_save_csv).mkdir(parents=True, exist_ok=True)
 
 # Display the title on the output graphs? (True or False)
