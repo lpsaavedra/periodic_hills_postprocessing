@@ -70,6 +70,7 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
 
     fig, ax = plt.subplots()
 
+    markers = ["s", "o", "P", "*", "X"]
     colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:pumpkin", "xkcd:gold"]    
     #Plot Lethe data
     index = 0
@@ -78,7 +79,7 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
         for time in average_times[index]:
             average_times_flows_through.append((time - 207)/9)
 
-        ax.scatter(average_times_flows_through, reattachment_point, label = mesh_labels[index], color = colors[index], s = 16)
+        ax.scatter(average_times_flows_through, reattachment_point, marker = markers[index], label = mesh_labels[index], color = colors[index], s = 18)
         index = index + 1
     
     #Plot lethe error
