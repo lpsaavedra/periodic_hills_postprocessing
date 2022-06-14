@@ -20,7 +20,10 @@ Extraction of lethe data:
    * `plot_data_with_geometry_higher_reynolds.py`
    * `reattachment_plot_mesh_refinement.py`
 
-Extraction of near wall data from the simulation:
+Other scripts available in the folder:
+
+* The `breuer2009_data_comparison.py` script compares two different sources for the data of the Breuer article. This code is intended mostly as a verification and should not be used when post-processing simulation data.
+
 * The `near_wall_processing.py` script outputs the reattachment point, average y+ and maximum y+ along the lower wall for Lethe simulations, and plots y+.
 
 * The `y_plus_on_geometry.py` script plots y+ superimposed over the periodic hill geometry.
