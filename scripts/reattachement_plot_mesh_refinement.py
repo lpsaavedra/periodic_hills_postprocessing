@@ -25,24 +25,19 @@ start_time = time.time()
 #This information is obtained by running the near_wall_processing.py script for every simulation
 
 mesh_labels = ["Lethe - 250K", "Lethe - 500K", "Lethe - 1M", "Lethe - 4M"]
+
 #Reattachement points at different averaging times.
 #250K
 reattachment_points_1 = [5.09686651116088, 5.045595935082811, 5.039710668073614, 5.059829429669876, 5.079026106079334]
 average_times_1 = [600, 700, 800, 900, 1000] 
-# [5.119019253594677, 5.09686651116088, 5.045595935082811, 5.039710668073614, 5.059829429669876, 5.079026106079334,5.09935524282273]
-#[500, 600, 700, 800, 900, 1000, 1100]
 
 #500K
 reattachment_points_2 = [4.632911085716633, 4.625248808252732, 4.628748473476688, 4.6306247666503495, 4.65011904021285]
 average_times_2 = [600, 700, 800, 900, 1000] 
-# [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
-#[500, 600, 700, 800, 900, 1000, 1100]
 
 #1M
 reattachment_points_3 = [4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626]
 average_times_3 = [600, 700, 800, 900, 1000] 
-# [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
-#[500, 600, 700, 800, 900, 1000, 1100]
 
 #4M
 reattachment_points_4 = [4.82322082908, 4.809037746, 4.8116936081221, 4.83547590569519, 4.82277937063245]
@@ -50,9 +45,6 @@ average_times_4 = [600, 700, 800, 900, 1000]
 
 reattachment_points = [reattachment_points_1, reattachment_points_2, reattachment_points_3, reattachment_points_4]
 average_times = [average_times_1, average_times_2, average_times_3, average_times_4]
-
-# reattachment_points = [4.92881200404335, 4.89558853808692, 4.896752607702034, 4.8661037487483805, 4.8181314809444125, 4.803963093638626,4.828350257066652]
-# average_times = [500, 600, 700, 800, 900, 1000, 1100]
 
 # Save graph.png 
 folder_to_save_png = "../article_figures/"
@@ -124,12 +116,17 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
     ax.set_xlim([0,147])
     ax.set_xlabel("Averaging time [Flows throughs]")
     ax.set_ylabel("Reattachment length [-]")
-    # ax.legend(loc = "lower center", bbox_to_anchor=(0.5, -0.3), ncol = 2)
     fig.subplots_adjust(right=0.6)
     # plt.tight_layout()
     ax.legend(loc='right', bbox_to_anchor=(1.7, 0.5), facecolor = 'white', framealpha = 0.75, ncol=1, edgecolor = 'black', fancybox = False, shadow = False)
     fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600_all.eps",dpi=800)
     # plt.show()
+
+    # For the graphical anstract figure
+    # fig.set_size_inches(6,5)
+    # ax.legend(loc = "lower center", bbox_to_anchor=(0.5, -0.5), ncol = 2, facecolor = 'white', framealpha = 0.75, edgecolor = 'black', fancybox = False, shadow = False)
+    # fig.subplots_adjust(bottom=0.3)
+    # fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600_all_graphical_abstract.eps",dpi=800)
 
 ########################################################################################################################
 # RUN FUNCTIONS
