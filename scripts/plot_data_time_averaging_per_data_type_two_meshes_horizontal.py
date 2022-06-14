@@ -27,10 +27,11 @@ Re = 5600
 path_to_lethe_data = "../output_csv/all_data/"
 
 #Filename
-# file_names_lethe_data = ["0.1_1M_600s", "0.1_1M_700s", "0.1_1M_800s", "0.1_1M_900s", "0.1_1M_1000s", "0.1_1M_1100s", "0.1_1M_1200s"]
-# file_names_lethe_data = ["0.05_1M_600s", "0.05_1M_700s", "0.05_1M_800s", "0.05_1M_900s", "0.05_1M_1000s", "0.05_1M_1100s", "0.05_1M_1200s"]
-file_names_lethe_data = ["0.025_250K_500s_5600", "0.025_250K_600s_5600", "0.025_250K_700s_5600", "0.025_250K_800s_5600", "0.025_250K_900s_5600", "0.025_250K_1000s_5600"] #, "0.025_250K_1100s_5600"]
-file_names_lethe_data_2 = ["0.025_1M_500s_5600_old_baseline", "0.025_1M_600s_5600_old_baseline", "0.025_1M_700s_5600_old_baseline", "0.025_1M_800s_5600", "0.025_1M_900s_5600_old_baseline", "0.025_1M_1000s_old_baseline"] #, "0.025_1M_1100s_old_baseline"]
+#Coarse mesh
+file_names_lethe_data = ["0.025_250K_500s_5600", "0.025_250K_600s_5600", "0.025_250K_700s_5600", "0.025_250K_800s_5600", "0.025_250K_900s_5600", "0.025_250K_1000s_5600"]
+#Fine mesh
+file_names_lethe_data_2 = ["0.025_1M_500s_5600_old_baseline", "0.025_1M_600s_5600_old_baseline", "0.025_1M_700s_5600_old_baseline", "0.025_1M_800s_5600", "0.025_1M_900s_5600_old_baseline", "0.025_1M_1000s_old_baseline"]
+
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
 labels = ["Lethe - 500s", "Lethe - 600s", "Lethe - 700s", "Lethe - 800s","Lethe - 900s","Lethe baseline - 1000s"]
@@ -39,8 +40,6 @@ labels = ["Lethe - 500s", "Lethe - 600s", "Lethe - 700s", "Lethe - 800s","Lethe 
 path_to_literature_data = "../output_csv/literature/5600/"
 
 # Time step used
-# time_step = 0.1
-# time_step = 0.05
 time_step = 0.025
 
 # Save graph.png 

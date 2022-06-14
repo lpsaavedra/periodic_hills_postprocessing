@@ -27,7 +27,9 @@ Re = 5600
 path_to_lethe_data = "../output_csv/all_data/"
 
 #Filename
+#Coarse mesh
 file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_250K_1000s_5600", "0.0125_250K_1000s_5600"]
+#Fine mesh
 file_names_lethe_data_2 = ["0.1_1M_1000s_old_baseline", "0.05_1M_1000s_old_baseline", "0.025_1M_1000s_old_baseline", "0.0125_1M_1000s_old_baseline"]
 
 # Label for Lethe data for the legend
