@@ -21,27 +21,26 @@ Re = 5600
 viscosity = 1.78571E-04
 
 # Information about the Lethe data
-path_to_lethe_data = "./lethe/"
+path_to_lethe_data = "./lethe_data/"
 # file_names_lethe_data = ["data_3","data_3_bdf2"]  # add all lethe files in this list
 # file_names_lethe_data = ["time_0.025_600s", "time_0.025_700s", "time_0.025_800s","time_0.025_900s","time_0.025_1000s"]  # add all lethe files in this list
-file_names_lethe_data = ["data_3"]
-# file_names_lethe_data = ["data_3", "data_5_800s"]
+file_names_lethe_data = ["0.025_120K_800s_5600_q2q2", "0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600", "0.025_8M_800s_5600" ]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
 # labels = ["Lethe - 1M - 720s", "Lethe - 4M - 300s","Lethe - 4M - 500s"]
 # labels = ["Lethe - 600s","Lethe - 700s","Lethe - 800s","Lethe - 900s","Lethe - 1000s"]
-labels = ["Lethe - 1M - 720s"]
+labels = ["Lethe - 120K", "Lethe - 250K", "Lethe - 500K", "Lethe - 1M", "Lethe - 4M", "Lethe - 8M"]
 # labels = ["Lethe - 1M - 720s", "Lethe - 4M - 800s"]
 
 # Information about the literature data
 path_to_literature_data = "./lit/Re_5600/"
 
 # Save graph.png and data.csv
-folder_to_save_png = "./output_png/"
+folder_to_save_png = "./y_plus/"
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
-folder_to_save_csv = "./output_csv/"
+folder_to_save_csv = "./y_plus/"
 Path(folder_to_save_csv).mkdir(parents=True, exist_ok=True)
 
 ########################################################################################################################
