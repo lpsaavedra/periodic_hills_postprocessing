@@ -4,3 +4,7 @@ output_geometry/
 output_png/
 paraview_files/
 article_figures/
+statistics/
+y_plus/
+near_wall/
+article_figures_old/
