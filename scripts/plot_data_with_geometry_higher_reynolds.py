@@ -409,7 +409,7 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
 
     plt.tight_layout()
     # plt.show()
-    plt.savefig(folder_to_save + "high_reynolds_data_in_geometry_" + str(data_type) + "_" + str(Re) +".eps", dpi=800, bbox_inches='tight',pad_inches = 0)
+    plt.savefig(folder_to_save + "high_reynolds_data_in_geometry_" + str(data_type) + "_" + str(Re) +".eps", dpi=800, bbox_inches='tight')
     # plt.close(fig)
     ax.clear()
     

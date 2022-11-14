@@ -103,7 +103,7 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, lethe_al
     plt.rcParams['text.usetex'] = True
     plt.rcParams['font.family']='DejaVu Serif'
     plt.rcParams['font.serif']='cm'
-    plt.rcParams['font.size'] = 12
+    plt.rcParams['font.size'] = 16
 
     fig, axs = plt.subplots(2, 4)
 
@@ -326,7 +326,7 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, lethe_al
     axs[0][0].set(ylabel="$y/h$")
     axs[1][0].set(ylabel="$y/h$")
     fig.tight_layout()
-    fig.subplots_adjust(bottom=0.16)
+    fig.subplots_adjust(bottom=0.2)
     # fig.subplots_adjust(right=0.7)
     if zoom_in == False:
         fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_horizontal.eps",dpi=800)

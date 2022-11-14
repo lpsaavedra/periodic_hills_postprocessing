@@ -58,12 +58,13 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
     plt.rcParams['text.usetex'] = True
     plt.rcParams['font.family']='DejaVu Serif'
     plt.rcParams['font.serif']='cm'
-    plt.rcParams['font.size'] = 11
+    plt.rcParams['font.size'] = 14
 
     fig, ax = plt.subplots()
 
     markers = ["s", "o", "P", "*", "X"]
     colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:pumpkin", "xkcd:gold"]    
+    
     #Plot Lethe data
     index = 0
     for reattachment_point in reattachment_points:
@@ -112,13 +113,13 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
 
     ax.plot(rapp_flow_through, rapp_reattachment_point, "--", label = "Experimental - Rapp 2009", color = "k", linewidth = 1.2 )
     
-    fig.set_size_inches(8,4)
+    fig.set_size_inches(9,5)
     ax.set_xlim([0,147])
     ax.set_xlabel("Averaging time [Flows throughs]")
     ax.set_ylabel("Reattachment length [-]")
     fig.subplots_adjust(right=0.6)
     # plt.tight_layout()
-    ax.legend(loc='right', bbox_to_anchor=(1.7, 0.5), facecolor = 'white', framealpha = 0.75, ncol=1, edgecolor = 'black', fancybox = False, shadow = False)
+    ax.legend(loc='right', bbox_to_anchor=(1.8, 0.5), facecolor = 'white', framealpha = 0.75, ncol=1, edgecolor = 'black', fancybox = False, shadow = False)
     fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600_all.eps",dpi=800)
     # plt.show()
 
