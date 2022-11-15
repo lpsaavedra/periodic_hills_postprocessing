@@ -30,10 +30,10 @@ path_to_lethe_data = "../output_csv/all_data/"
 #Coarse mesh
 file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_250K_1000s_5600", "0.0125_250K_1000s_5600"]
 
-#Fine mesh
+#Regular mesh
 file_names_lethe_data_2 = ["0.1_1M_1000s_old_baseline", "0.05_1M_1000s_old_baseline", "0.025_1M_1000s_old_baseline", "0.0125_1M_1000s_old_baseline"]
 
-#Very fine mesh
+#Fine mesh
 file_names_lethe_data_3 = ["0.1_1M_1000s_old_baseline", "0.05_1M_1000s_old_baseline", "0.025_1M_1000s_old_baseline", "0.0125_1M_1000s_old_baseline"]
 
 # Label for Lethe data for the legend
@@ -45,14 +45,17 @@ path_to_literature_data = "../output_csv/literature/5600/"
 
 # Save graph.png 
 folder_to_save_png = "../article_figures/"
-# folder_to_save_png = "../journal_im/"
 
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
 # Extract and generate graphs for all x_values and data_types? (True or False)
 all_data = True
 
+# Enable zoom in plots (True or False)
 zoom_in = True
+
+# Save a figure or show plot only (True or False)
+save_figure = True
 
 ########################################################################################################################
 # Function to retrieve data from .csv files
@@ -65,6 +68,9 @@ def obtain_data(x_values, path_to_literature_data, path_to_lethe_data, file_name
     Lethe_all_data_2 = list()
     Lethe_all_data_3 = list()
 
+    # Create temporal arrays to avoid code repetition
+    file_names = [file_names_lethe_data, file_names_lethe_data_2, file_names_lethe_data_3]
+    lethe_data_array = [Lethe_all_data, Lethe_all_data_2, Lethe_all_data_3]
 
     for x_value in x_values:
         # Read data and append to list
@@ -80,34 +86,16 @@ def obtain_data(x_values, path_to_literature_data, path_to_lethe_data, file_name
         Breuer2009_data = numpy.delete(Breuer2009_data, 0, 1)   
         Breuer2009_all_data.append(Breuer2009_data)
 
-        Lethe_data=list()
-        for file in file_names_lethe_data:
-            Lethe_data_csv = path_to_lethe_data + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
-            Lethe_data_loc = pandas.read_csv(Lethe_data_csv)
-            Lethe_data_loc = Lethe_data_loc.to_numpy()
-            Lethe_data_loc = numpy.delete(Lethe_data_loc, 0, 1)
-            Lethe_data.extend(Lethe_data_loc)
-        Lethe_all_data.append(Lethe_data)
-
-        Lethe_data_2=list()
-        for file in file_names_lethe_data_2:
-            Lethe_data_csv = path_to_lethe_data + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
-            Lethe_data_loc = pandas.read_csv(Lethe_data_csv)
-            Lethe_data_loc = Lethe_data_loc.to_numpy()
-            Lethe_data_loc = numpy.delete(Lethe_data_loc, 0, 1)
-            Lethe_data_2.extend(Lethe_data_loc)
-        Lethe_all_data_2.append(Lethe_data_2)
-
-        Lethe_data_3=list()
-        for file in file_names_lethe_data_3:
-            Lethe_data_csv = path_to_lethe_data + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
-            Lethe_data_loc = pandas.read_csv(Lethe_data_csv)
-            Lethe_data_loc = Lethe_data_loc.to_numpy()
-            Lethe_data_loc = numpy.delete(Lethe_data_loc, 0, 1)
-            Lethe_data_3.extend(Lethe_data_loc)
-        Lethe_all_data_3.append(Lethe_data_3)
+        for i in range(len(file_names)):
+            Lethe_data=list()
+            for file in file_names[i]:
+                Lethe_data_csv = path_to_lethe_data + '_Lethe_data_' + str(file) + '_' + str(data_type) + '_x_' + str(x_value) + '.csv'
+                Lethe_data_loc = pandas.read_csv(Lethe_data_csv)
+                Lethe_data_loc = Lethe_data_loc.to_numpy()
+                Lethe_data_loc = numpy.delete(Lethe_data_loc, 0, 1)
+                Lethe_data.extend(Lethe_data_loc)
+            lethe_data_array[i].append(Lethe_data)
         
-    # print(Breuer2009_all_data)
     return Breuer2009_all_data, Rapp2009_all_data, Lethe_all_data, Lethe_all_data_2, Lethe_all_data_3
 
 # Plot literature values against Lethe values
@@ -119,7 +107,9 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, lethe_al
     plt.rcParams['font.serif']='cm'
     plt.rcParams['font.size'] = 16
 
-    fig, axs = plt.subplots(3, 4) 
+    nrows = 3
+    ncols = 4
+    fig, axs = plt.subplots(nrows, ncols) 
 
     colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:brown", "xkcd:pink", "xkcd:gold"]       
     
@@ -157,245 +147,123 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, lethe_al
         else:
             location = 'upper right'
 
+        # Create sub axes for zoom-in plots of each subplot
         sub_axes = list()
-        sub_axes.append(inset_axes(axs[0][0], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[0][1], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[0][2], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[0][3], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[1][0], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[1][1], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[1][2], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[1][3], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[2][0], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[2][1], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[2][2], height = "30%", width = "30%", loc = location))
-        sub_axes.append(inset_axes(axs[2][3], height = "30%", width = "30%", loc = location))
+        for i in range(nrows):
+            for j in range(ncols):
+                sub_axes.append(inset_axes(axs[i][j], height = "30%", width = "30%", loc = location))
 
-    value = 0
-    number_of_subaxes = 0
-    for i in range(1):
-        for j in range(4):
+    # Data corresponding to first row of subplots
+    for i in range(nrows):
+        value = 0
+        number_of_subaxes = ncols*i
+        lethe_row_data = list()
+        if (i == 0):
+            lethe_row_data = lethe_all_data
+        elif (i == 1):
+            lethe_row_data = lethe_all_data_2
+        elif (i == 2):
+            lethe_row_data = lethe_all_data_3
+
+        for j in range(ncols):
             for x_value in x_values:
                 # Plot Lethe data
                 index = 0
                 chunk = 0
                 for file_name in file_names_lethe_data:
                     if file_name is not None:
-                        if lethe_all_data[value] != []:
-                            if(i == 0 and j == 0 and x_value == x_values[0]):
-                                axs[i][j].plot(lethe_all_data[value][chunk], lethe_all_data[value][chunk+1], '--', label=labels[index] , color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-                                if zoom_in == True:
-                                    sub_axes[number_of_subaxes].plot(lethe_all_data[value][chunk], lethe_all_data[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-                            else:
-                                axs[i][j].plot(lethe_all_data[value][chunk], lethe_all_data[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-                                if zoom_in == True:                                
-                                    sub_axes[number_of_subaxes].plot(lethe_all_data[value][chunk], lethe_all_data[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-
+                        if lethe_row_data[value] != []:
+                            axs[i][j].plot(lethe_row_data[value][chunk], lethe_row_data[value][chunk+1], '--', label=labels[index] if (i == 0 and j ==0 and x_value ==x_values[0]) else "", color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
+                            
+                            if zoom_in == True:
+                                sub_axes[number_of_subaxes].plot(lethe_row_data[value][chunk], lethe_row_data[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
+                            
                             index = index + 1
                             chunk = chunk + 2
 
                 # Plot Breuer data
                 if Breuer2009_all_data[value] != []:
-                    if(i == 0 and j == 0 and x_value == x_values[0]):
-                        axs[i][j].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2,
-                                label='LESOCC - Breuer 2009', zorder = 2)
-                        if zoom_in == True:
-                            sub_axes[number_of_subaxes].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
-
-                    else:
-                        axs[i][j].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
-                        if zoom_in == True:
-                            sub_axes[number_of_subaxes].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
+                    axs[i][j].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2,
+                                label='LESOCC - Breuer 2009' if (i == 0 and j ==0 and x_value ==x_values[0]) else "", zorder = 2)
+                    if zoom_in == True:
+                        sub_axes[number_of_subaxes].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
 
                 # Plot Rapp data
                 if Rapp2009_all_data != []:
-                    if(i == 0 and j == 0 and x_value == x_values[0]):
-                        axs[i][j].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,
-                                label = 'Experimental - Rapp 2009',zorder = 1)
-                        if zoom_in == True:
-                            sub_axes[number_of_subaxes].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
-
-                    else:
-                        axs[i][j].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
-                        if zoom_in == True:
-                            sub_axes[number_of_subaxes].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
+                    axs[i][j].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,
+                               label = 'Experimental - Rapp 2009' if (i == 0 and j ==0 and x_value ==x_values[0]) else "",zorder = 1)
+                    if zoom_in == True:
+                        sub_axes[number_of_subaxes].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
 
             axs[i][j].set(xlabel=x_labels[value]) #,ylabel="$y/h$") 
             value = value + 1
             number_of_subaxes = number_of_subaxes + 1
             
-
-    value = 0
-    number_of_subaxes = 4
-    for i in range(1,2):
-        for j in range(4):
-            for x_value in x_values:
-                # Plot Lethe data
-                index = 0
-                chunk = 0
-                for file_name in file_names_lethe_data:
-                    if file_name is not None:
-                        if lethe_all_data_2[value] != []:
-                            axs[i][j].plot(lethe_all_data_2[value][chunk], lethe_all_data_2[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-                            if zoom_in == True:                                
-                                sub_axes[number_of_subaxes].plot(lethe_all_data_2[value][chunk], lethe_all_data_2[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-
-                            index = index + 1
-                            chunk = chunk + 2
-
-                # Plot Breuer data
-                if Breuer2009_all_data[value] != []:
-                    axs[i][j].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
-                    if zoom_in == True:
-                        sub_axes[number_of_subaxes].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
-
-                # Plot Rapp data
-                if Rapp2009_all_data != []:
-                    axs[i][j].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
-                    if zoom_in == True:
-                        sub_axes[number_of_subaxes].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
-
-            axs[i][j].set(xlabel=x_labels[value]) #,ylabel="$y/h$") 
-            value = value + 1
-            number_of_subaxes = number_of_subaxes + 1
-
-    value = 0
-    number_of_subaxes = 8
-    for i in range(2,3):
-        for j in range(4):
-            for x_value in x_values:
-                # Plot Lethe data
-                index = 0
-                chunk = 0
-                for file_name in file_names_lethe_data:
-                    if file_name is not None:
-                        if lethe_all_data_3[value] != []:
-                            axs[i][j].plot(lethe_all_data_3[value][chunk], lethe_all_data_3[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-                            if zoom_in == True:                                
-                                sub_axes[number_of_subaxes].plot(lethe_all_data_3[value][chunk], lethe_all_data_3[value][chunk+1], '--', color=colors[index], linewidth = 1.2, zorder = 3, mfc = 'none') 
-
-                            index = index + 1
-                            chunk = chunk + 2
-
-                # Plot Breuer data
-                if Breuer2009_all_data[value] != []:
-                    axs[i][j].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
-                    if zoom_in == True:
-                        sub_axes[number_of_subaxes].plot(Breuer2009_all_data[value][0], Breuer2009_all_data[value][1], ':', color="k", linewidth = 1.2, zorder = 2)
-
-                # Plot Rapp data
-                if Rapp2009_all_data != []:
-                    axs[i][j].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
-                    if zoom_in == True:
-                        sub_axes[number_of_subaxes].plot(Rapp2009_all_data[value][0], Rapp2009_all_data[value][1], '-', color="k", linewidth = 1.2,zorder = 1)               
-
-            axs[i][j].set(xlabel=x_labels[value]) #,ylabel="$y/h$") 
-            value = value + 1
-            number_of_subaxes = number_of_subaxes + 1
-
-
     if zoom_in == True:
 
-        # Fix limits for zoom in plots depending on data type    
+        # Fix limits for zoom in plots depending on data type  x =([x1,x2],[x1,x2],[x1,x2],[x1,x2])  
         if data_type == "average_velocity_0":
-            x_lims =([-0.2,0.1],[-0.3,0],[-0.2,0.1],[0,0.2],[-0.2,0.1],[-0.3,0],[-0.2,0.1],[0,0.2],[-0.2,0.1],[-0.3,0],[-0.2,0.1],[0,0.2]) 
-            y_lims =([0.8,1.1],[0,0.3],[0, 0.3],[0, 0.3],[0.8,1.1],[0,0.3],[0, 0.3],[0, 0.3],[0.8,1.1],[0,0.3],[0, 0.3],[0, 0.3]) 
-            for index in range(12):
-                sub_axes[index].set_xlim(x_lims[index]); sub_axes[index].set_ylim(y_lims[index])
-                # sub_axes[i].yaxis.tick_right()
-                sub_axes[index].set_yticks([])
-                sub_axes[index].set_xticks([])
-            index = 0
-            for i in range(3):
-                for j in range(4):
-                    x1 = x_lims[index][0]; x2=x_lims[index][1]; y1=y_lims[index][0]; y2=y_lims[index][1]
-                    axs[i][j].add_patch(patches.Rectangle((x1,y1),(x2-x1),(y2-y1),linewidth=0.5, edgecolor='gray', facecolor = 'none'))
-                    line1 = ConnectionPatch(xyA=(x2 - (x2-x1)/2, y2), coordsA=axs[i][j].transData, xyB=(x1 + (x2-x1)/2, y1), coordsB=sub_axes[index].transData, color = 'gray',linewidth=0.5, arrowstyle ="->", zorder = 0)
-                    axs[i][j].add_artist(line1)
-                    index = index + 1
+            x_lims = [[-0.2,0.1],[-0.3,0],[-0.2,0.1],[0,0.2]]*nrows
+            y_lims =([0.8,1.1],[0,0.3],[0, 0.3],[0, 0.3])*nrows 
+        elif data_type == "reynolds_normal_stress_0":
+            x_lims =([0,0.02],[0.01,0.03],[0,0.05],[0,0.05])*nrows
+            y_lims =([0.8,1.0],[0,0.2],[2.5,3.1],[2.5,3.1])*nrows
+        elif data_type == "reynolds_shear_stress_uv":
+            x_lims =([-0.01,0],[-0.01,0],[-0.005,0.005],[-0.005,0.005])*nrows 
+            y_lims =([0.8,1],[0,0.2],[2.8,3.1],[2.8,3.1])*nrows
+        else:
+            print("Zoom in plots not implemented for this data type.")
+            exit()
+        
+        for index in range(nrows*ncols):
+            sub_axes[index].set_xlim(x_lims[index]); sub_axes[index].set_ylim(y_lims[index])
+            sub_axes[index].set_yticks([])
+            sub_axes[index].set_xticks([])
+
+        index = 0
+        for i in range(nrows):
+            for j in range(ncols):
+                x1 = x_lims[index][0]; x2=x_lims[index][1]; y1=y_lims[index][0]; y2=y_lims[index][1]
+                axs[i][j].add_patch(patches.Rectangle((x1,y1),(x2-x1),(y2-y1),linewidth=0.5, edgecolor='gray', facecolor = 'none'))
+                line1 = ConnectionPatch(xyA=(x2 - (x2-x1)/2, y2), coordsA=axs[i][j].transData, xyB=(x1 + (x2-x1)/2, y1), coordsB=sub_axes[index].transData, color = 'gray',linewidth=0.5, arrowstyle ="->", zorder = 0)
+                axs[i][j].add_artist(line1)
+                index = index + 1
+
+                if data_type == "average_velocity_0":
                     axs[i][j].xaxis.set_major_locator(ticker.MultipleLocator(0.3))
                     axs[i][j].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
                     axs[i][j].set_xlim([-0.25,1.25])
                     axs[i][j].set_ylim([-0.05, 3.1])
-    
-        elif data_type == "reynolds_normal_stress_0":
-            x_lims =([0,0.02],[0.01,0.03],[0,0.05],[0,0.05], [0,0.02],[0.01,0.03],[0,0.05],[0,0.05],[0,0.02],[0.01,0.03],[0,0.05],[0,0.05]) 
-            y_lims =([0.8,1.0],[0,0.2],[2.5,3.1],[2.5,3.1], [0.8,1.0],[0,0.2],[2.5,3.1],[2.5,3.1],[0.8,1.0],[0,0.2],[2.5,3.1],[2.5,3.1]) 
-            for index in range(12):
-                sub_axes[index].set_xlim(x_lims[index]); sub_axes[index].set_ylim(y_lims[index])
-                # sub_axes[i].yaxis.tick_right()
-                sub_axes[index].set_yticks([])
-                sub_axes[index].set_xticks([])
-            index = 0
-            for i in range(3):
-                for j in range(4):
-                    x1 = x_lims[index][0]; x2=x_lims[index][1]; y1=y_lims[index][0]; y2=y_lims[index][1]
-                    axs[i][j].add_patch(patches.Rectangle((x1,y1),(x2-x1),(y2-y1),linewidth=0.5, edgecolor='gray', facecolor = 'none'))
-                    line1 = ConnectionPatch(xyA=(x2, y2 - (y2-y1)/2), coordsA=axs[i][j].transData, xyB=(x1, y1 + (y2-y1)/2), coordsB=sub_axes[index].transData, color = 'gray',linewidth=0.5, arrowstyle ="->", zorder = 0)
-                    axs[i][j].add_artist(line1)
-                    index = index + 1
+                elif data_type == "reynolds_normal_stress_0":
                     axs[i][j].xaxis.set_major_locator(ticker.MultipleLocator(0.04))
                     axs[i][j].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
                     axs[i][j].set_xlim([-0.01,0.14])
                     axs[i][j].set_ylim([-0.05, 3.1])
-    
-        elif data_type == "reynolds_shear_stress_uv":
-            # x =([x1,x2],[x1,x2],[x1,x2],[x1,x2]) x limits for each subplot
-            x_lims =([-0.01,0],[-0.01,0],[-0.005,0.005],[-0.005,0.005], [-0.01,0],[-0.01,0],[-0.005,0.005],[-0.005,0.005], [-0.01,0],[-0.01,0],[-0.005,0.005],[-0.005,0.005]) 
-            y_lims =([0.8,1],[0,0.2],[2.8,3.1],[2.8,3.1], [0.8,1],[0,0.2],[2.8,3.1],[2.8,3.1], [0.8,1],[0,0.2],[2.8,3.1],[2.8,3.1]) 
-            for index in range(12):
-                sub_axes[index].set_xlim(x_lims[index]); sub_axes[index].set_ylim(y_lims[index])
-                # sub_axes[i].yaxis.tick_right()
-                sub_axes[index].set_yticks([])
-                sub_axes[index].set_xticks([])
-            index = 0
-            for i in range(3):
-                for j in range(4):
-                    x1 = x_lims[index][0]; x2=x_lims[index][1]; y1=y_lims[index][0]; y2=y_lims[index][1]
-                    axs[i][j].add_patch(patches.Rectangle((x1,y1),(x2-x1),(y2-y1),linewidth=0.5, edgecolor='gray', facecolor = 'none'))
-                    line1 = ConnectionPatch(xyA=(x1, y2 - (y2-y1)/2), coordsA=axs[i][j].transData, xyB=(x2, y1 + (y2-y1)/2), coordsB=sub_axes[index].transData, color = 'gray',linewidth=0.5, arrowstyle ="->", zorder = 0)
-                    axs[i][j].add_artist(line1)
-                    index = index + 1
+                elif data_type == "reynolds_shear_stress_uv":
                     axs[i][j].xaxis.set_major_locator(ticker.MultipleLocator(0.02))
                     axs[i][j].yaxis.set_major_locator(ticker.MultipleLocator(0.5))
                     axs[i][j].set_xlim([-0.05,0.01])
                     axs[i][j].set_ylim([-0.05, 3.1])
-    
-        else:
-            sub_axes[0].set_xlim([0,1]); sub_axes[0].set_ylim([0,1])
-            sub_axes[1].set_xlim([0,1]); sub_axes[1].set_ylim([0,1])
-            sub_axes[2].set_xlim([0,1]); sub_axes[2].set_ylim([0,1])
-            sub_axes[3].set_xlim([0,1]); sub_axes[3].set_ylim([0,1])
 
-    # fig.set_size_inches(12,28)
-    # # fig.set_size_inches(9,7)
-    # # plt.legend(loc = 'lower center', ncol = 3, bbox_to_anchor=(0.5, -0.08),bbox_transform = plt.gcf().transFigure)
-    # lgd = fig.legend(loc='lower center', ncol =3, bbox_to_anchor=(0.5, -0.08), facecolor = 'white', framealpha = 0.75,  edgecolor = 'black', fancybox = False, shadow = False)
-
+    # Set size, legend, titles
     fig.set_size_inches(11,12)
-    # fig.set_size_inches(9,7)
     lgd = fig.legend(loc='lower center', ncol =3, bbox_to_anchor=(0.5, 0.005), bbox_transform = plt.gcf().transFigure, facecolor = 'white', framealpha = 0.75,  edgecolor = 'black', fancybox = False, shadow = False)
 
-    # lgd = fig.legend(loc='right',bbox_to_anchor=(1.0, 0.5), bbox_transform = plt.gcf().transFigure, facecolor = 'white', framealpha = 0.75,  edgecolor = 'black', fancybox = False, shadow = False)
-    # fig.suptitle("Lethe (250K)")
-    # plt.gcf().text(0.02, 0.5, "Lethe (250K)", fontsize=14)
-    axs[0][0].set_title(r"$\underline{\bf{" + "Coarse \ (250K)" + "}}$", loc='left', x = -0.35, y = 1.07)
-    axs[1][0].set_title(r"$\underline{\bf{" + "Regular \ (1M)" + "}}$", loc='left', x = -0.35, y = 1.07)
-    axs[2][0].set_title(r"$\underline{\bf{" + "Fine \ (4M)" + "}}$", loc='left', x = -0.35, y = 1.07)
-    axs[0][0].set(ylabel="$y/h$")
-    axs[1][0].set(ylabel="$y/h$")
-    axs[2][0].set(ylabel="$y/h$")
+    label_of_rows =["Coarse \ (250K)", "Regular \ (1M)", "Fine \ (4M)"]
+    for i in range(nrows):
+        axs[i][0].set_title(r"$\underline{\bf{" + label_of_rows[i] + "}}$", loc='left', x = -0.35, y = 1.07)
+        axs[i][0].set(ylabel="$y/h$")
 
     fig.tight_layout()
     fig.subplots_adjust(bottom=0.15)
     fig.subplots_adjust(hspace=0.65)
-    if zoom_in == False:
+    
+    if save_figure == False:
+        plt.show()
+    elif zoom_in == False and save_figure == True:
         fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_horizontal.eps",dpi=800)
     else:
         fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_with_zoom_in_horizontal.eps",dpi=800)
-
-    # plt.show()
-
 
 ########################################################################################################################
 # RUN FUNCTIONS
@@ -424,4 +292,3 @@ if all_data is True:
         plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, lethe_all_data_2, lethe_all_data_3, flow_property, x_available, labels, folder_to_save_png)
 
 print("--- %s seconds ---" % (time.time() - start_time))
-
