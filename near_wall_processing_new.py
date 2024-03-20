@@ -1,6 +1,6 @@
-# Name   : near_wall_processing.py
-# Author : Catherine Radburn
-# Date   : 11-05-2021
+# Name   : near_wall_processing_new.py
+# Author : Laura Prieto Saavedra
+# Date   : 11-01-2023
 # Desc   : This code finds the reattachment point from Lethe, and evaluates and plots y+ across the length.
 #           The near-wall region of data is extracted from Lethe. The reattachment point is found at the wall-nearest
 #           point as the x-value where the average x-direction velocity is zero. y+ is calculated from the gradient of
