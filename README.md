@@ -24,7 +24,9 @@ Other scripts available in the folder:
 
 * The `breuer2009_data_comparison.py` script compares two different sources for the data of the Breuer article. This code is intended mostly as a verification and should not be used when post-processing simulation data.
 
-* The `near_wall_processing.py` script outputs the reattachment point, average y+ and maximum y+ along the lower wall for Lethe simulations, and plots y+.
+* The `near_wall_processing_new.py` script outputs the reattachment point, average y+ and maximum y+ along the lower wall for Lethe simulations, and plots y+.
+
+* The `mesh_quality.py` script outputs the average and maximum x+, y+ and z+ along the lower wall for Lethe simulations, and plots them.
 
 * The `y_plus_on_geometry.py` script plots y+ superimposed over the periodic hill geometry.
 
