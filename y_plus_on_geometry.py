@@ -24,7 +24,7 @@ viscosity = 1.78571E-04
 path_to_lethe_data = "./lethe_data/"
 # file_names_lethe_data = ["data_3","data_3_bdf2"]  # add all lethe files in this list
 # file_names_lethe_data = ["time_0.025_600s", "time_0.025_700s", "time_0.025_800s","time_0.025_900s","time_0.025_1000s"]  # add all lethe files in this list
-file_names_lethe_data = ["0.025_120K_800s_5600_q2q2", "0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600", "0.025_8M_800s_5600" ]
+file_names_lethe_data = ["0.025_120K_800s_5600_q2q2", "0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600"] #, "0.025_8M_800s_5600" ]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data

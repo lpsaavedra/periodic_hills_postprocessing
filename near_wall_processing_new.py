@@ -1,6 +1,6 @@
-# Name   : near_wall_processing_new.py
-# Author : Laura Prieto Saavedra
-# Date   : 11-01-2023
+# Name   : near_wall_processing.py
+# Author : Catherine Radburn
+# Date   : 11-05-2021
 # Desc   : This code finds the reattachment point from Lethe, and evaluates and plots y+ across the length.
 #           The near-wall region of data is extracted from Lethe. The reattachment point is found at the wall-nearest
 #           point as the x-value where the average x-direction velocity is zero. y+ is calculated from the gradient of
@@ -20,14 +20,16 @@ start_time = time.time()
 
 # Reynolds number and kinematic viscosity of the simulation (Currently available for Re = 5600 only)
 Re = 5600
-set_try = 1
+set_try = 0
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
 if Re == 5600 and set_try == 0:
     viscosity = 1.78571E-04 
-    file_names_lethe_data = ["0.025_120K_800s_5600_q2q2", "0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600", "0.025_8M_800s_5600" ]
-    labels = ["Lethe - 120K", "Lethe - 250K", "Lethe - 500K", "Lethe - 1M", "Lethe - 4M", "Lethe - 8M"]
+    # file_names_lethe_data = ["0.025_120K_800s_5600_q2q2", "0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600", "0.025_8M_800s_5600" ]
+    file_names_lethe_data = ["0.025_250K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600"]
+    # labels = ["Lethe - 120K", "Lethe - 250K", "Lethe - 500K", "Lethe - 1M", "Lethe - 4M", "Lethe - 8M"]
+    labels = ["Lethe - 250K", "Lethe - 1M", "Lethe - 4M"]
 elif Re == 10600:
     viscosity = 9.43396E-05 
     file_names_lethe_data = ["0.025_120k_800s_10600", "0.025_250k_800s_10600", "0.025_500K_800s_10600"]
@@ -40,13 +42,20 @@ elif Re == 5600 and set_try == 1:
     viscosity = 1.78571E-04 
     file_names_lethe_data = ["0.1_1M_1000s_old_baseline"]
     labels = ["Lethe - 1M"]
-
+elif Re == 5600 and set_try == 2:
+    viscosity = 1.78571E-04 
+    file_names_lethe_data = ["0.0125_4M_1000s_5600", "0.025_4M_1000s_5600", "0.05_4M_1000s_5600", "0.1_4M_1000s_5600" ]
+    labels = ["0.0125 - 4M - 1000s", "0.025 - 4M - 1000s", "0.05 - 4M - 1000s", "0.1 - 4M - 1000s"]
+elif Re == 5600 and set_try == 3:
+    viscosity = 1.78571E-04 
+    file_names_lethe_data = ["0.1_250K_1000s_5600", "0.1_1M_1000s_old_baseline", "0.1_4M_1000s_5600" ]
+    labels = ["0.1 - 250k - 1000s", "0.1 - 1M - 1000s", "0.1 - 4M - 1000s"]
 # Information about the Lethe data
 path_to_lethe_data = "./lethe_data/"
 
 
 # Save graph.png and data.csv
-folder_to_save_png = "./near_wall/"
+folder_to_save_png = "./mesh_requirements/"
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
 folder_to_save_csv = "./near_wall/"
@@ -298,7 +307,9 @@ def plot_y_plus(folder_to_save_png, extracted_y_plus, labels, Re, title):
     fig, ax = plt.subplots()
 
     # Colours for graphs
-    colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:crimson", "xkcd:purple", "xkcd:gold"]       
+    # colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:crimson", "xkcd:purple", "xkcd:gold"]      
+    colors = ["xkcd:lime green", "xkcd:orange", "xkcd:crimson", "xkcd:purple", "xkcd:gold"]       
+ 
     index = 0
 
     # Plot y_plus values
@@ -311,7 +322,7 @@ def plot_y_plus(folder_to_save_png, extracted_y_plus, labels, Re, title):
         ax.set_title("Re = " + str(Re))
 
     ax.set_xlabel("$x/h$")
-    ax.set_ylabel("$y^+$")
+    ax.set_ylabel("$\Delta y^+$")
     ax.set_facecolor('white')
     ax.spines['bottom'].set_color('black')
     ax.spines['top'].set_color('black')
@@ -326,9 +337,9 @@ def plot_y_plus(folder_to_save_png, extracted_y_plus, labels, Re, title):
     ax.legend(loc='right', bbox_to_anchor=(1.65, 0.5), facecolor = 'white', framealpha = 0.75, ncol=1, edgecolor = 'black', fancybox = False, shadow = False)
 
     fig.savefig(
-        folder_to_save_png + "graph_y_plus_" + str(Re) + ".eps" ,
+        folder_to_save_png + "graph_y_plus_" + str(Re) + "_new.eps" ,
         dpi=600)
-    # plt.show()
+    plt.show()
     # plt.close(fig)
     ax.clear()
 
@@ -341,8 +352,8 @@ assert len(labels) == len(file_names_lethe_data), f"It seems to have {len(file_n
 
 # Collect required data types from near wall region
 lethe_data = lethe_data_extraction(path_to_lethe_data, file_names_lethe_data, Re)
-reattachment(lethe_data, labels)
+# reattachment(lethe_data, labels)
 y_plus_data = y_plus(lethe_data, viscosity, folder_to_save_csv)
-# plot_y_plus(folder_to_save_png, y_plus_data, labels, Re, display_title)
+plot_y_plus(folder_to_save_png, y_plus_data, labels, Re, display_title)
 
 print("--- %s seconds ---" % (time.time() - start_time))

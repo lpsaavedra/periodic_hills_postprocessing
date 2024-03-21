@@ -24,33 +24,37 @@ if Re == 5600:
     viscosity = 1.78571E-04 
 elif Re == 10600:
     viscosity = 9.43396E-05 
-elif Re == 37000:
+else:
     viscosity = 2.7027E-05 
 
 # Information about the Lethe data
 path_to_lethe_data = "./lethe_data/"
-# file_names_lethe_data = ["0.025_120K_800s_5600_q2q2", "0.025_250K_800s_5600", "0.025_500K_800s_5600", "0.025_1M_800s_5600", "0.025_4M_800s_5600", "0.025_8M_800s_5600" ]
-# file_names_lethe_data = ["0.025_120k_800s_10600", "0.025_250k_800s_10600", "0.025_500K_800s_10600"]
-file_names_lethe_data = ["0.025_120k_800s_37000", "0.025_250k_800s_37000", "0.025_500K_800s_37000"]
+# file_names_lethe_data = ["0.025_500K_600s_5600","0.025_500K_700s_5600","0.025_500K_800s_5600","0.025_500K_900s_5600","0.025_500K_1000s_5600"]
+# file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_250K_1000s_5600", "0.0125_250K_1000s_5600"]
+# file_names_lethe_data = ["0.1_1M_1000s_old_baseline", "0.05_1M_1000s_old_baseline", "0.025_1M_1000s_old_baseline", "0.0125_1M_1000s_old_baseline"]
+# file_names_lethe_data = ["0.1_1M_1000s_old_baseline"]
+file_names_lethe_data = ["0.025_120k_800s_37000", "0.025_250k_800s_37000", "0.025_500K_800s_37000"] #, "0.025_120k_800s_37000", "0.025_250k_800s_37000", "0.025_500K_800s_37000"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
-# labels = ["Lethe - 120K", "Lethe - 250K", "Lethe - 500K", "Lethe - 1M", "Lethe - 4M", "Lethe - 8M"]
-# labels = ["Lethe - 120K", "Lethe - 250K", "Lethe - 500K"]
-labels = ["Lethe - 120K", "Lethe - 250K", "Lethe - 500K"]
+# labels = ["Lethe 0.025 500K 600s", "Lethe 0.025 500K 700s","Lethe 0.025 500K 800s","Lethe 0.025 500K 900s","Lethe 0.025 500K 1000s"] #, "0.025_1M_800s", "0.025_1M_900s", "0.025_1M_1000s"]
+# labels = ["Lethe 0.1s 250K", "Lethe 0.05s 250K", "Lethe 0.025s 250K", "Lethe 0.0125s 250K"]
+# labels = ["Lethe 0.1s 1M", "Lethe 0.05s 1M", "Lethe 0.025s 1M", "Lethe 0.0125s 1M"]
+labels = ["Lethe 0.025s 120K 37000", "Lethe 0.025s 250K 37000", "Lethe 0.025s 500K 37000"] #, "Lethe 0.025s 120K 37000", "Lethe 0.025s 250K 37000", "Lethe 0.025s 500K 37000"]
+# labels = ["Lethe 0.1s 1M"]
 
 # Information about the literature data
 path_to_literature_data = "./output_csv/literature/5600/"
 
 # Save graph.png and data.csv
-folder_to_save_png = "./near_wall/"
+folder_to_save_png = "./output_png/near_wall/"
 Path(folder_to_save_png).mkdir(parents=True, exist_ok=True)
 
-folder_to_save_csv = "./near_wall/"
+folder_to_save_csv = "./output_csv/near_wall/"
 Path(folder_to_save_csv).mkdir(parents=True, exist_ok=True)
 
 # Display the title on the output graphs? (True or False)
-display_title = False
+display_title = True
 
 ########################################################################################################################
 
@@ -66,8 +70,8 @@ def lethe_data_extraction(path_to_lethe_data, file_names_lethe_data, Re):
     for file_name in file_names_lethe_data:
         lethe_csv = path_to_lethe_data + file_name + ".csv"
         # Iterates through lethe_csv file
-        iter_csv = pandas.read_csv(lethe_csv, usecols=["Points_0", "Points_1", "average_velocity_0",
-                                                       "reynolds_shear_stress_uv"], sep=",", iterator=True,
+        iter_csv = pandas.read_csv(lethe_csv, usecols=["Points_0", "Points_1", "Points_2", "average_velocity_0",
+                                                       "reynolds_shear_stress_uv",], sep=",", iterator=True,
                                                         chunksize=1000)
         # Saves required columns in range [0, 1.1] to Pandas dataframe lethe_data_range (up to y=1.2 for hills)
         lethe_lower_wall_data = pandas.concat(
@@ -254,14 +258,6 @@ def y_plus(extracted_lethe_data, viscosity, folder_to_save_csv):
             tau = viscous_stress
             y_plus = (y_cc*numpy.sqrt(abs(tau)))/(viscosity)
 
-            if Re == 5600:
-                if i == 4: #4M mesh
-                    fudge_factor = 5
-                elif i == 5: #8M mesh
-                    fudge_factor = 3
-            elif Re == 37000:
-                fudge_factor = 20
-
             if y_plus < fudge_factor:
                 y_plus_data.append([x, y_plus])
 
@@ -279,7 +275,7 @@ def y_plus(extracted_lethe_data, viscosity, folder_to_save_csv):
         extracted_y_plus.append(y_plus_data)
 
         # Write output arrays to .csv files
-        # pandas.DataFrame(y_plus_data).to_csv(folder_to_save_csv + '_Lethe_' + str(file_names_lethe_data[index-1]) + '_y_plus.csv')
+        pandas.DataFrame(y_plus_data).to_csv(folder_to_save_csv + '_Lethe_' + str(file_names_lethe_data[index-1]) + '_y_plus.csv')
 
         index += 1
 
@@ -288,16 +284,10 @@ def y_plus(extracted_lethe_data, viscosity, folder_to_save_csv):
 # Plot of y+ values
 def plot_y_plus(folder_to_save_png, extracted_y_plus, labels, Re, title):
     # Plotting results
-    plt.rcParams['text.usetex'] = True
-    plt.rcParams['font.family']='DejaVu Serif'
-    plt.rcParams['font.serif']='cm'
-    plt.rcParams['font.size'] = 10
-
-    # Plotting results
     fig, ax = plt.subplots()
 
     # Colours for graphs
-    colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:crimson", "xkcd:purple", "xkcd:gold"]       
+    colors = ['#1b9e77', '#7570b3', '#e7298a', '#66a61e', '#e6ab02', '#58aef5']
     index = 0
 
     # Plot y_plus values
@@ -307,28 +297,14 @@ def plot_y_plus(folder_to_save_png, extracted_y_plus, labels, Re, title):
             index += 1
 
     if title is True:
-        ax.set_title("Re = " + str(Re))
-
+        ax.set_title("$y^+$ along the lower wall at Re = " + str(Re))
     ax.set_xlabel("$x/h$")
     ax.set_ylabel("$y^+$")
-    ax.set_facecolor('white')
-    ax.spines['bottom'].set_color('black')
-    ax.spines['top'].set_color('black')
-    ax.spines['right'].set_color('black')
-    ax.spines['left'].set_color('black')
-    plt.tight_layout()
-    fig.set_size_inches(6,4)
-    fig.subplots_adjust(right=0.7)
-    ax.set_xlim([0,9])
-    # ax.set_ylim([0,6])
-
-    ax.legend(loc='right', bbox_to_anchor=(1.4, 0.5), facecolor = 'white', framealpha = 0.75, ncol=1, edgecolor = 'black', fancybox = False, shadow = False)
-
-    # fig.savefig(
-        # folder_to_save_png + "graph_y_plus_" + str(Re) + "_2.png" ,
-        # dpi=600)
-    plt.show()
-    # plt.close(fig)
+    ax.legend()
+    fig.savefig(
+        folder_to_save_png + "graph_y_plus.png",
+        dpi=300)
+    plt.close(fig)
     ax.clear()
 
 ########################################################################################################################
@@ -340,8 +316,8 @@ assert len(labels) == len(file_names_lethe_data), f"It seems to have {len(file_n
 
 # Collect required data types from near wall region
 lethe_data = lethe_data_extraction(path_to_lethe_data, file_names_lethe_data, Re)
-# reattachment(lethe_data, labels)
+reattachment(lethe_data, labels)
 y_plus_data = y_plus(lethe_data, viscosity, folder_to_save_csv)
-plot_y_plus(folder_to_save_png, y_plus_data, labels, Re, display_title)
+# plot_y_plus(folder_to_save_png, y_plus_data, labels, Re, display_title)
 
 print("--- %s seconds ---" % (time.time() - start_time))
