@@ -59,7 +59,7 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
     plt.rcParams['text.usetex'] = True
     plt.rcParams['font.family']='DejaVu Serif'
     plt.rcParams['font.serif']='cm'
-    plt.rcParams['font.size'] = 16
+    plt.rcParams['font.size'] = 14
 
     fig, ax = plt.subplots()
 
@@ -114,13 +114,13 @@ def plot_reattachment_points(reattachment_points, average_times, folder_to_save_
 
     ax.plot(rapp_flow_through, rapp_reattachment_point, "--", label = "Experimental - Rapp 2009", color = "k", linewidth = 1.2 )
     
-    fig.set_size_inches(9,5)
+    fig.set_size_inches(9,10)
     ax.set_xlim([0,147])
     ax.set_xlabel("Averaging time [Flows throughs]")
     ax.set_ylabel("Reattachment length [-]")
-    fig.subplots_adjust(right=0.6)
+    fig.subplots_adjust(bottom=0.4)
+    ax.legend(loc='bottom', bbox_to_anchor=(0.9, -0.1), facecolor = 'white', framealpha = 0.75, ncol=2, edgecolor = 'black', fancybox = False, shadow = False)
     # plt.tight_layout()
-    ax.legend(loc='right', bbox_to_anchor=(1.85, 0.5), facecolor = 'white', framealpha = 0.75, ncol=1, edgecolor = 'black', fancybox = False, shadow = False)
     fig.savefig(folder_to_save_png + "reattachement_point_mesh_refinement_5600_all_new.eps",dpi=800)
     # plt.show()
 

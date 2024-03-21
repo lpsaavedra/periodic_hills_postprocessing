@@ -111,7 +111,8 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, lethe_al
     fig, axs = plt.subplots(2, 4)
 
     colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:brown", "xkcd:pink", "xkcd:gold"]       
-    
+    # colors = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494"]
+
     # Set display axis titles
     if data_type == "average_velocity_0":
         x_axis_label = "$u/u_b$"

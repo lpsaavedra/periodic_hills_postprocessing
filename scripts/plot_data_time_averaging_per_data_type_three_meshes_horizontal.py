@@ -34,7 +34,7 @@ file_names_lethe_data = ["0.025_250K_500s_5600", "0.025_250K_600s_5600", "0.025_
 file_names_lethe_data_2 = ["0.025_1M_500s_5600_old_baseline", "0.025_1M_600s_5600_old_baseline", "0.025_1M_700s_5600_old_baseline", "0.025_1M_800s_5600", "0.025_1M_900s_5600_old_baseline", "0.025_1M_1000s_old_baseline"]
 
 #Fine mesh
-file_names_lethe_data_3 = ["0.025_1M_500s_5600_old_baseline", "0.025_1M_600s_5600_old_baseline", "0.025_1M_700s_5600_old_baseline", "0.025_1M_800s_5600", "0.025_1M_900s_5600_old_baseline", "0.025_1M_1000s_old_baseline"]
+file_names_lethe_data_3 = ["0.025_4M_500s_5600", "0.025_4M_600s_5600", "0.025_4M_700s_5600", "0.025_4M_800s_5600", "0.025_4M_900s_5600", "0.025_4M_1000s_5600"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data

@@ -34,10 +34,10 @@ Path(path_to_save).mkdir(parents=True, exist_ok=True)
 # Label for Lethe data for the legend (should be the same as used in post_processing_new.py)
 # NOTE : make sure the number of labels are the same that the number of Lethe simulation data in csv files and
 #        and associated to the right data set
-labels = ["Lethe baseline 250K", "Lethe baseline 1M"]
+labels = ["Lethe baseline 250K", "Lethe baseline 1M", "Lethe baseline 4M"]
 
 # File names of lethe data
-file_names_lethe_data = ["0.1_250K_1000s_5600", "0.1_1M_1000s_old_baseline"]
+file_names_lethe_data = ["0.1_250K_1000s_5600", "0.1_1M_1000s_old_baseline", "0.1_4M_1000s_5600"]
 # data_type_available = ["average_velocity_0", "average_velocity_1", "reynolds_normal_stress_0",
 #                            "reynolds_normal_stress_1", "reynolds_shear_stress_uv"]
 data_type = "reynolds_shear_stress_uv"
@@ -231,7 +231,8 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
         data_x = all_x_data[i]
 
         # Specify colours for Lethe plots
-        colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:brown", "xkcd:pink", "xkcd:gold"]   
+        colors = ["xkcd:blue", "xkcd:lime green", "xkcd:red", "xkcd:orange", "xkcd:brown", "xkcd:pink", "xkcd:gold"]
+        # colors = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494"]    
 
         # data_x is a list of Rapp then Breuer then Lethe numpy arrays at x_value
         for j, dataset in enumerate(data_x):
@@ -347,7 +348,7 @@ def plot_onto_geometry(x_available, Re, all_x_data, folder_to_save, x_vector, y_
     elif Re == 37000:
         ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.6), facecolor = 'white', framealpha = 0.75, ncol=2, edgecolor = 'black', fancybox = False, shadow = False)
     else:
-        ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.6), facecolor = 'white', framealpha = 0.75, ncol=2, edgecolor = 'black', fancybox = False, shadow = False)
+        ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.6), facecolor = 'white', framealpha = 0.75, ncol=3, edgecolor = 'black', fancybox = False, shadow = False)
     
     ax.xaxis.set_major_locator(ticker.MultipleLocator(1))
     ax.yaxis.set_major_locator(ticker.MultipleLocator(1))

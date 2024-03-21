@@ -34,7 +34,7 @@ file_names_lethe_data = ["0.1_250K_1000s_5600", "0.05_250K_1000s_5600", "0.025_2
 file_names_lethe_data_2 = ["0.1_1M_1000s_old_baseline", "0.05_1M_1000s_old_baseline", "0.025_1M_1000s_old_baseline", "0.0125_1M_1000s_old_baseline"]
 
 #Fine mesh
-file_names_lethe_data_3 = ["0.1_1M_1000s_old_baseline", "0.05_1M_1000s_old_baseline", "0.025_1M_1000s_old_baseline", "0.0125_1M_1000s_old_baseline"]
+file_names_lethe_data_3 = ["0.1_4M_1000s_5600", "0.05_4M_1000s_5600", "0.025_4M_1000s_5600", "0.0125_4M_1000s_5600"]
 
 # Label for Lethe data for the legend
 # NOTE : make sure the number of labels are the same that the number of files names of lethe data
@@ -261,9 +261,9 @@ def plot_to_png(Breuer2009_all_data, Rapp2009_all_data, lethe_all_data, lethe_al
     if save_figure == False:
         plt.show()
     elif zoom_in == False and save_figure == True:
-        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_horizontal.eps",dpi=800)
+        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_horizontal_3_meshes.eps",dpi=800)
     else:
-        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_with_zoom_in_horizontal.eps",dpi=800)
+        fig.savefig(folder_to_save_png + "graph_" + data_type + "_x_time_stepping_with_zoom_in_horizontal_3_meshes.eps",dpi=800)
 
 ########################################################################################################################
 # RUN FUNCTIONS
